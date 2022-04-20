@@ -61,7 +61,7 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({
               </td> */}
               <td>
                 <img
-                  src={`images/chart${i+1}.png`}
+                  src={`images/chart${i + 1}.png`}
                   alt="chart img"
                   width="17%"
                   height="17%"
@@ -81,7 +81,7 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({
   );
 };
 export default Index;
-export const getServerSideProps: any = async () => {
+export const getStaticProps: any = async () => {
   const fetchCoinList: any = await fetch(
     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
   );
@@ -146,10 +146,11 @@ export const getServerSideProps: any = async () => {
     chart.toFile(`public/images/chart${i}.png`);
     return;
   }
-   coinData.map((coin: any, i: number) => {
+  coinData.map((coin: any, i: number) => {
     return getCoinChart(coin.id, i + 1);
   });
   return {
     props: { coinData },
+    revalidate: 120,
   };
 };

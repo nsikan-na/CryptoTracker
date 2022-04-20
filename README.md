@@ -1,3 +1,3 @@
 # Crypto Coins
 
-[Visit Live Site](https://crypto_coins.vercel.app/)
+[Visit Live Site](https://top-crypto-coins.vercel.app/)
