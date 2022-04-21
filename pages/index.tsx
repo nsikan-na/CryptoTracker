@@ -86,7 +86,7 @@ export const getStaticProps: any = async () => {
         labels: index,
         datasets: [
           {
-            borderColor: ["#add8e6"],
+            borderColor: ["#0000ff"],
             data: data,
             fill: false,
             borderWidth: 5,
