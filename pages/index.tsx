@@ -79,7 +79,7 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
 export default Index;
 export const getStaticProps: any = async () => {
   const fetchCoinList: any = await fetch(
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false"
+    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
   );
   const coinData: any = await fetchCoinList.json();
 
