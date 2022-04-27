@@ -16,7 +16,7 @@ const Coin: React.FC<{}> = ({}) => {
   const [month, setMonths] = useState("");
   const [totalVolume, setTotalVolume] = useState("");
   const [marketCap, setMarketCap] = useState("");
-  const [chart, setChart] = useState(false);
+  const [chart, setChart] = useState('');
   async function getCoinInfo(coin: any) {
     //fetch coins information form
     const response = await fetch(`/api/coins`, {
@@ -40,12 +40,12 @@ const Coin: React.FC<{}> = ({}) => {
     setMonths(`${data.months?.toFixed(2)}%`);
     setTotalVolume(data.total_volume?.usd);
     setMarketCap(data.market_cap);
-    setChart(true);
+    setChart(data.chart);
   }
   useEffect(() => {
     getCoinInfo(coin);
   }, [coin]);
-  console.log(marketCap);
+
   return (
     <div>
       <div>{rank}</div>
@@ -77,16 +77,8 @@ const Coin: React.FC<{}> = ({}) => {
             : `$${(Number(marketCap) / 1000000).toFixed(1)}M`
         }`}
       </div>
-      {chart ? (
-        <Image
-          src={`/images/chart-${coin}.png`}
-          alt={`chart for ${coin}`}
-          width="200%"
-          height="200%"
-        />
-      ) : (
-        ""
-      )}
+
+      <img src={chart} alt={`chart for ${coin}`} width="50%" height="50%" />
     </div>
   );
 };

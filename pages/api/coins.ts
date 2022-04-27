@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+const QuickChart = require("quickchart-js");
 
+const chart = new QuickChart();
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -27,6 +29,58 @@ export default async function handler(
         total_volume,
         market_cap,
       } = coinData.market_data;
+      const fetchChart = await fetch(
+        `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=7`
+      );
+      const getChart = await fetchChart.json();
+      const index: number[] = [];
+      const data: number[] = [];
+      getChart.prices.map((x: any, i: number) => {
+        index.push(i + 1);
+        data.push(x[1]);
+      });
+
+      chart.setWidth(500);
+      chart.setHeight(300);
+
+      chart.setConfig({
+        type: "line",
+        data: {
+          labels: index,
+          datasets: [
+            {
+              borderColor: ["#0000ff"],
+              data: data,
+              fill: false,
+              borderWidth: 5,
+              pointRadius: 0,
+            },
+          ],
+        },
+        options: {
+          legend: {
+            display: false,
+          },
+          scales: {
+            xAxes: [
+              {
+                display: false,
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+            yAxes: [
+              {
+                display: false,
+                gridLines: {
+                  display: false,
+                },
+              },
+            ],
+          },
+        },
+      });
 
       return res.json({
         success: true,
@@ -41,7 +95,7 @@ export default async function handler(
         total_volume,
         market_cap_rank,
         market_cap: market_cap.usd,
-
+        chart: chart.getUrl(),
       });
     } catch (error: any) {
       console.log(error.message);

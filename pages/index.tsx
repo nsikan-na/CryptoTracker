@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-const QuickChart = require("quickchart-js");
 
 const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
   const router = useRouter();
@@ -69,6 +68,7 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
                   ? `$${(coin.market_cap / 1000000000).toFixed(1)}B`
                   : `$${(coin.market_cap / 1000000).toFixed(1)}M`}
               </td>
+
             </tr>
           ))}
         </tbody>
@@ -83,67 +83,6 @@ export const getStaticProps: any = async () => {
   );
   const coinData: any = await fetchCoinList.json();
 
-  async function getCoinChart(coin: string) {
-    const fetchChart = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=7`
-    );
-    const getChart = await fetchChart.json();
-    const index: number[] = [];
-    const data: number[] = [];
-    getChart.prices.map((x: any, i: number) => {
-      index.push(i + 1);
-      data.push(x[1]);
-    });
-    const chart = new QuickChart();
-    chart.setWidth(500);
-    chart.setHeight(300);
-
-    chart.setConfig({
-      type: "line",
-      data: {
-        labels: index,
-        datasets: [
-          {
-            borderColor: ["#0000ff"],
-            data: data,
-            fill: false,
-            borderWidth: 5,
-            pointRadius: 0,
-          },
-        ],
-      },
-      options: {
-        legend: {
-          display: false,
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false,
-              gridLines: {
-                display: false,
-              },
-            },
-          ],
-          yAxes: [
-            {
-              display: false,
-              gridLines: {
-                display: false,
-              },
-            },
-          ],
-        },
-      },
-    });
-
-    // Print the chart URL
-    chart.toFile(`public/images/chart-${coin}.png`);
-    return;
-  }
-  coinData.map((coin: any) => {
-    return getCoinChart(coin.id);
-  });
   return {
     props: { coinData },
     revalidate: 120,
