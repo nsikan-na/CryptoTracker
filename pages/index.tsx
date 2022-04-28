@@ -8,10 +8,10 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
 
   useEffect(() => {
     setData([]);
-    coinData.forEach((coin, i) => {
+    coinData.forEach((coin: any, i: any) => {
       if (i >= pageNum * 10) return;
       if (i <= pageNum * 10 - 11) return;
-      setData((prev)=> [...prev, coin]);
+      setData((prev: any): any => [...prev, coin]);
     });
   }, [pageNum]);
 
