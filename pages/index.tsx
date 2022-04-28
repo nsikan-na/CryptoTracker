@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
 const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
   const router = useRouter();
+  const [pageNum, setPageNum] = useState(1);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData([]);
+    coinData.forEach((coin, i) => {
+      if (i >= pageNum * 10) return;
+      if (i <= pageNum * 10 - 11) return;
+      setData((prev)=> [...prev, coin]);
+    });
+  }, [pageNum]);
+
   return (
     <div className="">
       <h1 className="text-center font-semibold text-2xl my-4">
@@ -22,7 +34,7 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
           </tr>
         </thead>
         <tbody className="">
-          {coinData.map((coin: any, i: number) => (
+          {data.map((coin: any, i: number) => (
             <tr
               key={coin.id}
               className="cursor-pointer hover:bg-gray-100"
@@ -68,18 +80,44 @@ const Index: React.FC<{ coinData: any; chartArr: any }> = ({ coinData }) => {
                   ? `$${(coin.market_cap / 1000000000).toFixed(1)}B`
                   : `$${(coin.market_cap / 1000000).toFixed(1)}M`}
               </td>
-
             </tr>
           ))}
         </tbody>
       </table>
+      <div className="flex justify-center space-x-5">
+        {pageNum != 1 ? (
+          <div
+            className="inline cursor-pointer"
+            onClick={() => {
+              setPageNum(pageNum - 1);
+            }}
+          >
+            {pageNum - 1}
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="inline text-blue-500">{pageNum}</div>
+        {pageNum != 10 ? (
+          <div
+            className="inline cursor-pointer"
+            onClick={() => {
+              setPageNum(pageNum + 1);
+            }}
+          >
+            {pageNum + 1}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };
 export default Index;
 export const getStaticProps: any = async () => {
   const fetchCoinList: any = await fetch(
-    "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false`
   );
   const coinData: any = await fetchCoinList.json();
 

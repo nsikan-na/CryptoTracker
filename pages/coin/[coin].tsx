@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-
 import { useRouter } from "next/router";
 const Coin: React.FC<{}> = ({}) => {
   const router = useRouter();
@@ -16,7 +15,7 @@ const Coin: React.FC<{}> = ({}) => {
   const [month, setMonths] = useState("");
   const [totalVolume, setTotalVolume] = useState("");
   const [marketCap, setMarketCap] = useState("");
-  const [chart, setChart] = useState('');
+  const [chart, setChart] = useState("");
   async function getCoinInfo(coin: any) {
     //fetch coins information form
     const response = await fetch(`/api/coins`, {
@@ -48,6 +47,13 @@ const Coin: React.FC<{}> = ({}) => {
 
   return (
     <div>
+      <button
+        onClick={() => {
+          router.back();
+        }}
+      >
+        Back
+      </button>
       <div>{rank}</div>
       <div>{`${name}(${symbol})`}</div>
       <img
@@ -58,7 +64,7 @@ const Coin: React.FC<{}> = ({}) => {
         alt={`${name}`}
         title={name}
       />
-      {/* <div>{desc}</div> */}
+      <div dangerouslySetInnerHTML={{ __html: desc }} />
       <div>{currentPrice}</div>
       <div>{`1d: ${hours}`}</div>
       <div>{`7d: ${days}`}</div>
@@ -78,7 +84,7 @@ const Coin: React.FC<{}> = ({}) => {
         }`}
       </div>
 
-      <img src={chart} alt={`chart for ${coin}`} width="50%" height="50%" />
+      <img src={chart} alt={`chart for ${coin}`} width="30%" height="30%" />
     </div>
   );
 };
