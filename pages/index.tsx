@@ -157,7 +157,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           </table>
         ) : (
           <h1 className="flex justify-center text-red-600">
-            No supported crypto coin's name or symbol match this search!
+            {`No supported crypto coin's name or symbol match this search!`}
           </h1>
         )}
 
