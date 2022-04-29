@@ -8,7 +8,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { coin }: { coin: any } = req.body;
+      const { coin, currency }: { coin: any; currency: any } = req.body;
       if (!coin) {
         return res.json({
           success: false,
@@ -20,17 +20,18 @@ export default async function handler(
         `https://api.coingecko.com/api/v3/coins/${coin}`
       );
       const coinData: any = await fetchCoinData.json();
+
       const { symbol, name, image, market_cap_rank } = coinData;
       const {
-        price_change_percentage_24h,
-        price_change_percentage_7d,
-        price_change_percentage_30d,
+        price_change_percentage_24h_in_currency,
+        price_change_percentage_7d_in_currency,
+        price_change_percentage_30d_in_currency,
         current_price,
         total_volume,
         market_cap,
       } = coinData.market_data;
       const fetchChart = await fetch(
-        `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=usd&days=7`
+        `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=${currency.toLowerCase()}&days=7`
       );
       const getChart = await fetchChart.json();
       const index: number[] = [];
@@ -89,12 +90,12 @@ export default async function handler(
         desc: coinData.description.en,
         current_price,
         image,
-        hours: price_change_percentage_24h,
-        days: price_change_percentage_7d,
-        months: price_change_percentage_30d,
+        hours: price_change_percentage_24h_in_currency,
+        days: price_change_percentage_7d_in_currency,
+        months: price_change_percentage_30d_in_currency,
         total_volume,
         market_cap_rank,
-        market_cap: market_cap.usd,
+        market_cap: market_cap,
         chart: chart.getUrl(),
       });
     } catch (error: any) {
