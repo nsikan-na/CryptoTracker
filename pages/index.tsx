@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Context } from "./_app";
+import Link from "next/link";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -40,8 +41,8 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         Top Coins by Market Capitalization
       </h1>
       <div>
-        <a href="/api/auth/login">Login</a>
-        <a href="/api/auth/logout">Logout</a>
+        <Link href="/api/auth/login">Login</Link>
+        <Link href="/api/auth/logout">Logout</Link>
       </div>
       <div className="flex justify-evenly">
         <input
