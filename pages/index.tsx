@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
+import { useUser } from "@auth0/nextjs-auth0";
 import { Context } from "./_app";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
@@ -9,6 +10,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   coinDataEur,
 }) => {
   const router = useRouter();
+  const { user, error, isLoading } = useUser();
   const { currency, setCurrency }: any = useContext(Context);
   const [coinData, setCoinData] = useState(coinDataUsd);
   const [pageNum, setPageNum] = useState(1);
@@ -31,12 +33,16 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       setData((prev: any): any => [...prev, coin]);
     });
   }, [pageNum, coinData]);
-
+  console.log(user?.email);
   return (
     <div className="">
       <h1 className="text-center font-semibold text-2xl my-4">
         Top Coins by Market Capitalization
       </h1>
+      <div>
+        <a href="/api/auth/login">Login</a>
+        <a href="/api/auth/logout">Logout</a>
+      </div>
       <div className="flex justify-evenly">
         <input
           style={{ border: "1px solid black" }}
