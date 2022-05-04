@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Context } from "./_app";
 import Link from "next/link";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -18,6 +20,16 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const [data, setData] = useState([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
+  const [watchList, setWatchList] = useState([]);
+  useEffect(() => {
+    if (!user) return;
+    getWatchList(user);
+  }, [user]);
+  useEffect(() => {
+    if (!watchList) return;
+    getWatchList(user);
+  }, [watchListHandler]);
+
   useEffect(() => {
     currency === "USD" ? setCoinData(coinDataUsd) : setCoinData(coinDataEur);
   }, [currency]);
@@ -34,16 +46,48 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       setData((prev: any): any => [...prev, coin]);
     });
   }, [pageNum, coinData]);
-  console.log(user?.email);
+  async function getWatchList(user: any) {
+    const response = await fetch(`/api/star`, {
+      method: "POST",
+      body: JSON.stringify({
+        user,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return setWatchList(data.watchListCoins);
+  }
+  async function watchListHandler(coin: any, action: string) {
+    const response = await fetch(`/api/watchList`, {
+      method: "POST",
+      body: JSON.stringify({
+        coin,
+        user,
+        action,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+  }
   return (
     <div className="">
+      {!user ? (
+        <div className="flex space-x-3">
+          <Link href="/api/auth/login">Login</Link>
+        </div>
+      ) : (
+        <div className="flex space-x-3">
+          <img src={user.picture} className="rounded-2xl" />
+          <Link href="/api/auth/logout">Logout</Link>
+        </div>
+      )}
       <h1 className="text-center font-semibold text-2xl my-4">
         Top Coins by Market Capitalization
       </h1>
-      <div>
-        <Link href="/api/auth/login">Login</Link>
-        <Link href="/api/auth/logout">Logout</Link>
-      </div>
       <div className="flex justify-evenly">
         <input
           style={{ border: "1px solid black" }}
@@ -93,6 +137,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           <table className="w-10/12 mx-auto">
             <thead>
               <tr>
+                <td></td>
                 <td>Rank</td>
                 <td>Name</td>
                 <td>Price</td>
@@ -103,14 +148,37 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               </tr>
             </thead>
             <tbody className="">
-              {data.map((coin: any, i: number) => (
+              {data.map((coin: any) => (
                 <tr
                   key={coin.id}
                   className="cursor-pointer hover:bg-gray-100"
-                  onClick={() => {
-                    router.push(`/coin/${coin.id}`);
-                  }}
+                  // onClick={() => {
+                  //   router.push(`/coin/${coin.id}`);
+                  // }}
                 >
+                  <td>
+                    {user ? (
+                      !watchList?.some((c) => {
+                        return c === coin.name;
+                      }) ? (
+                        <StarBorderIcon
+                          className="text-yellow-300"
+                          onClick={() => {
+                            watchListHandler(coin.name, "Add");
+                          }}
+                        />
+                      ) : (
+                        <StarIcon
+                          className="text-yellow-300"
+                          onClick={() => {
+                            watchListHandler(coin.name, "Sub");
+                          }}
+                        />
+                      )
+                    ) : (
+                      ""
+                    )}
+                  </td>
                   <td>{coin.market_cap_rank}</td>
                   <td className="">
                     <span>
