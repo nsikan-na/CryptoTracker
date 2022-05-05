@@ -21,7 +21,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const [data, setData] = useState([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
-  const [watchList, setWatchList] = useState([]);
+  const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
   useEffect(() => {
     if (!user) return;
@@ -102,13 +102,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         </div>
       ) : (
         <div className="flex space-x-3">
-          {/* <img <HTMLImageElement | null>
-            src={user.picture}
-            className="rounded-2xl"
-            alt='profile pic'
-            width="10%"
-            height="10%"
-          /> */}
+          <div>{user.nickname}</div>
           <Link href="/api/auth/logout">Logout</Link>
         </div>
       )}
@@ -185,20 +179,14 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             </thead>
             <tbody className="">
               {data.map((coin: any) => (
-                <tr
-                  key={coin.id}
-                  className="cursor-pointer hover:bg-gray-100"
-                  // onClick={() => {
-                  //   router.push(`/coin/${coin.id}`);
-                  // }}
-                >
+                <tr key={coin.id}>
                   <td>
                     {user ? (
                       !watchList?.some((c) => {
                         return c === coin.name;
                       }) ? (
                         <StarBorderIcon
-                          className="text-yellow-300"
+                          className="text-yellow-300 cursor-pointer"
                           onClick={() => {
                             // getWatchList(user);
                             watchListHandler(coin.name, "Add");
@@ -206,7 +194,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         />
                       ) : (
                         <StarIcon
-                          className="text-yellow-300"
+                          className="text-yellow-300 cursor-pointer"
                           onClick={() => {
                             // getWatchList(user);
                             watchListHandler(coin.name, "Sub");
@@ -229,7 +217,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         title={coin.name}
                       />
                     </span>
-                    <span>{`${coin.name} (${coin.symbol.toUpperCase()})`}</span>
+                    <span
+                      title={`Click to see more of ${coin.name}!`}
+                      className="cursor-pointer hover:text-blue-500 hover:underline"
+                      onClick={() => {
+                        router.push(`/coin/${coin.id}`);
+                      }}
+                    >{`${coin.name} (${coin.symbol.toUpperCase()})`}</span>
                   </td>
                   <td>
                     {currency === "USD" ? "$" : `€`}
