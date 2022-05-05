@@ -25,8 +25,8 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const [viewWatchList, setViewWatchList] = useState(false);
   useEffect(() => {
     if (!user) return;
-    getWatchList(user);
-  }, [user]);
+    watchListHandler(user, "");
+  }, [user,watchList]);
 
   useEffect(() => {
     setData([]);
@@ -66,19 +66,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       setData((prev: any): any => [...prev, coin]);
     });
   }, [pageNum, coinData]);
-  async function getWatchList(user: any) {
-    const response = await fetch(`/api/star`, {
-      method: "POST",
-      body: JSON.stringify({
-        user,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return setWatchList(data.watchListCoins);
-  }
   async function watchListHandler(coin: any, action: string) {
     const response = await fetch(`/api/watchList`, {
       method: "POST",
@@ -92,7 +79,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       },
     });
     const data = await response.json();
-    getWatchList(user);
+    return setWatchList(data.watchListCoins);
   }
   return (
     <div className="">
@@ -188,7 +175,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         <StarBorderIcon
                           className="text-yellow-300 cursor-pointer"
                           onClick={() => {
-                            // getWatchList(user);
                             watchListHandler(coin.name, "Add");
                           }}
                         />
@@ -196,7 +182,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         <StarIcon
                           className="text-yellow-300 cursor-pointer"
                           onClick={() => {
-                            // getWatchList(user);
                             watchListHandler(coin.name, "Sub");
                           }}
                         />
@@ -214,7 +199,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         height="7%"
                         className="inline mr-2"
                         alt={`${coin.name}`}
-                        title={coin.name}
+                        title={`${coin.name}'s Symbol`}
                       />
                     </span>
                     <span

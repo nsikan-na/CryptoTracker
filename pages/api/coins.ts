@@ -99,7 +99,7 @@ export default async function handler(
         chart: chart.getUrl(),
       });
     } catch (error: any) {
-      console.log(error.message);
+      res.json({ error });
     }
   }
 }

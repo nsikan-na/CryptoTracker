@@ -21,7 +21,6 @@ export default async function handler(
         .collection("WatchList")
         .find({ user: user.sub })
         .toArray();
-      // console.log(result);
 
       if (result.length > 0) {
         const fetchData = await db
@@ -60,7 +59,7 @@ export default async function handler(
           coins: [coin],
         });
       }
-      return res.json({ success: true });
+      res.json({ watchListCoins: result[0].coins });
     } catch (error: any) {
       res.json({ error });
     }
