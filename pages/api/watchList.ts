@@ -1,4 +1,4 @@
-import connectDB from "./db";
+import { connectToDatabase } from "./db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -7,6 +7,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
+      const { db } = await connectToDatabase();
       const data = req.body;
       const {
         coin,
@@ -16,20 +17,19 @@ export default async function handler(
       if (!user)
         return res.json({ success: false, message: "Please sign in!" });
 
-      const db: any = await connectDB();
-      const watchListCollection: any = db.collection(
-        `${process.env.DB_COLLECTION}`
-      );
-      const result = await watchListCollection
+      const result: any = await db
+        .collection("WatchList")
         .find({ user: user.sub })
         .toArray();
-      console.log(result.length);
+      // console.log(result);
+
       if (result.length > 0) {
-        const fetchData = await watchListCollection
+        const fetchData = await db
+          .collection("WatchList")
           .find({ user: user.sub })
           .toArray();
         const prevCoins = [...fetchData[0].coins];
-        console.log(prevCoins);
+
         if (action === "Add") {
           if (
             prevCoins.some((c) => {
@@ -37,30 +37,32 @@ export default async function handler(
             })
           )
             return res.json({ success: true });
-          await watchListCollection.updateOne(
-            { user: user.sub },
-            { $set: { coins: [...prevCoins, coin] } }
-          );
+          await db
+            .collection("WatchList")
+            .updateOne(
+              { user: user.sub },
+              { $set: { coins: [...prevCoins, coin] } }
+            );
         }
         if (action === "Sub") {
           const newArr = prevCoins.filter((c: any) => {
             return c != coin;
           });
-          await watchListCollection.updateOne(
-            { user: user.sub },
-            { $set: { coins: newArr } }
-          );
+          await db
+            .collection("WatchList")
+            .updateOne({ user: user.sub }, { $set: { coins: newArr } });
         }
       }
+
       if (result.length === 0) {
-        await watchListCollection.insertOne({
+        await db.collection("WatchList").insertOne({
           user: user.sub,
           coins: [coin],
         });
       }
       return res.json({ success: true });
     } catch (error: any) {
-      res.json({error})
+      res.json({ error });
     }
   }
 }

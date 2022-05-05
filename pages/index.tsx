@@ -25,10 +25,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     if (!user) return;
     getWatchList(user);
   }, [user]);
-  useEffect(() => {
-    if (!watchList) return;
-    getWatchList(user);
-  }, [watchListHandler]);
 
   useEffect(() => {
     currency === "USD" ? setCoinData(coinDataUsd) : setCoinData(coinDataEur);
@@ -72,6 +68,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       },
     });
     const data = await response.json();
+    getWatchList(user)
   }
   return (
     <div className="">
@@ -81,7 +78,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         </div>
       ) : (
         <div className="flex space-x-3">
-          <img src={user.picture} className="rounded-2xl" />
+          {/* <img <HTMLImageElement | null>
+            src={user.picture}
+            className="rounded-2xl"
+            alt='profile pic'
+            width="10%"
+            height="10%"
+          /> */}
           <Link href="/api/auth/logout">Logout</Link>
         </div>
       )}
@@ -164,6 +167,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         <StarBorderIcon
                           className="text-yellow-300"
                           onClick={() => {
+                            // getWatchList(user);
                             watchListHandler(coin.name, "Add");
                           }}
                         />
@@ -171,6 +175,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         <StarIcon
                           className="text-yellow-300"
                           onClick={() => {
+                            // getWatchList(user);
                             watchListHandler(coin.name, "Sub");
                           }}
                         />
