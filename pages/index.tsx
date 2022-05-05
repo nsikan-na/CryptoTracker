@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Context } from "./_app";
@@ -13,6 +13,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   coinDataEur,
 }) => {
   const router = useRouter();
+  const inputRef: any = useRef();
   const { user, error, isLoading } = useUser();
   const { currency, setCurrency }: any = useContext(Context);
   const [coinData, setCoinData] = useState(coinDataUsd);
@@ -21,12 +22,35 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState([]);
+  const [viewWatchList, setViewWatchList] = useState(false);
   useEffect(() => {
     if (!user) return;
     getWatchList(user);
   }, [user]);
 
   useEffect(() => {
+    setData([]);
+    inputRef.current.value = "";
+    setSearch(false);
+    if (viewWatchList) {
+      setData(
+        coinData.filter((coin: any) => {
+          return watchList.includes(coin?.name);
+        })
+      );
+    }
+    if (!viewWatchList) {
+      coinData.forEach((coin: any, i: any) => {
+        if (i >= pageNum * 10) return;
+        if (i <= pageNum * 10 - 11) return;
+        setData((prev: any): any => [...prev, coin]);
+      });
+    }
+  }, [viewWatchList, watchList]);
+
+  useEffect(() => {
+    setSearch(false);
+    setViewWatchList(false);
     currency === "USD" ? setCoinData(coinDataUsd) : setCoinData(coinDataEur);
   }, [currency]);
   useEffect(() => {
@@ -68,7 +92,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       },
     });
     const data = await response.json();
-    getWatchList(user)
+    getWatchList(user);
   }
   return (
     <div className="">
@@ -91,8 +115,17 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       <h1 className="text-center font-semibold text-2xl my-4">
         Top Coins by Market Capitalization
       </h1>
+      <div
+        className="text-center text-blue-400 underline cursor-pointer"
+        onClick={() => {
+          setViewWatchList(!viewWatchList);
+        }}
+      >
+        View Watch List
+      </div>
       <div className="flex justify-evenly">
         <input
+          ref={inputRef}
           style={{ border: "1px solid black" }}
           className="rounded-md px-2 py-1"
           type="text"
@@ -237,11 +270,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           </table>
         ) : (
           <h1 className="flex justify-center text-red-600">
-            {`No supported crypto coin's name or symbol match this search!`}
+            {search
+              ? `No supported crypto coin's name or symbol match this search!`
+              : `You have no coins in your watch list!`}
           </h1>
         )}
 
-        {!search ? (
+        {!search && !viewWatchList ? (
           <div className="flex justify-center space-x-5">
             {pageNum != 1 ? (
               <div
