@@ -104,7 +104,7 @@ const Coin: React.FC<{}> = ({}) => {
           alt={`${name}`}
           title={name}
         />
-        {/* <div dangerouslySetInnerHTML={{ __html: desc }} /> */}
+        <div dangerouslySetInnerHTML={{ __html: desc }} />
         <div>{currentPrice}</div>
         <div>{`1d: ${hours}`}</div>
         <div>{`7d: ${days}`}</div>

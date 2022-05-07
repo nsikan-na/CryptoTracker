@@ -23,12 +23,14 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
+
   useEffect(() => {
     if (!user) return;
     watchListHandler(user, "");
-  }, [user,watchList]);
+  }, [user, watchList]);
 
   useEffect(() => {
+    if (search) return;
     setData([]);
     inputRef.current.value = "";
     setSearch(false);
