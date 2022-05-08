@@ -86,11 +86,11 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   return (
     <div className="">
       {!user ? (
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 justify-end mr-2">
           <Link href="/api/auth/login">Login</Link>
         </div>
       ) : (
-        <div className="flex space-x-3">
+        <div className="flex space-x-3  justify-end mr-2">
           <div>{user.nickname}</div>
           <Link href="/api/auth/logout">Logout</Link>
         </div>
@@ -99,7 +99,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         Top Coins by Market Capitalization
       </h1>
       <div
-        className="text-center text-blue-400 underline cursor-pointer"
+        className="text-center cursor-pointer"
         onClick={() => {
           setViewWatchList(!viewWatchList);
         }}
@@ -162,7 +162,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 <td>Price</td>
                 <td>24h</td>
                 {/* market cap */}
-                <td>24h Volume</td>
+                {/* <td>24h Volume</td> */}
                 <td>Market Cap</td>
               </tr>
             </thead>
@@ -227,7 +227,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                       ? `+${coin.price_change_percentage_24h.toFixed(2)}%`
                       : `${coin.price_change_percentage_24h.toFixed(2)}%`}
                   </td>
-                  <td>
+                  {/* <td>
                     {coin.total_volume.toString().length > 9
                       ? `${currency === "USD" ? "$" : `€`}${(
                           coin.total_volume / 1000000000
@@ -235,7 +235,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                       : `${currency === "USD" ? "$" : `€`}${(
                           coin.total_volume / 1000000
                         ).toFixed(1)}M`}
-                  </td>
+                  </td> */}
                   <td>
                     {coin.market_cap.toString().length > 9
                       ? `${currency === "USD" ? "$" : `€`}${(

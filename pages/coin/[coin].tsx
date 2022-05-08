@@ -51,19 +51,19 @@ const Coin: React.FC<{}> = ({}) => {
         currency === "USD"
           ? data.hours.usd.toFixed(2)
           : data.hours.eur.toFixed(2)
-      }%`
+      }`
     );
     setDays(
       `${
         currency === "USD" ? data.days.usd.toFixed(2) : data.days.eur.toFixed(2)
-      }%`
+      }`
     );
     setMonths(
       `${
         currency === "USD"
           ? data.months.usd.toFixed(2)
           : data.months.eur.toFixed(2)
-      }%`
+      }`
     );
     setTotalVolume(
       currency === "USD" ? data.total_volume.usd : data.total_volume.eur
@@ -79,7 +79,6 @@ const Coin: React.FC<{}> = ({}) => {
   useEffect(() => {
     getCoinInfo(coin);
   }, [coin]);
-
   return (
     <div>
       <div className={`${spinner ? "block" : "hidden"}`}>
@@ -94,45 +93,52 @@ const Coin: React.FC<{}> = ({}) => {
         >
           Back
         </button>
-        <div>{rank}</div>
-        <div>{`${name}(${symbol})`}</div>
-        <img
-          src={`${image}`}
-          width="7%"
-          height="7%"
-          className="inline mr-2"
-          alt={`${name}`}
-          title={name}
-        />
-        <div dangerouslySetInnerHTML={{ __html: desc }} />
-        <div>{currentPrice}</div>
-        <div>{`1d: ${hours}`}</div>
-        <div>{`7d: ${days}`}</div>
-        <div>{`30d: ${month}`}</div>
-        <div>
-          {`Total Volume: ${
-            totalVolume?.toString().length > 9
-              ? `${currency === "USD" ? "$" : `€`}${(
-                  Number(totalVolume) / 1000000000
-                ).toFixed(1)}B`
-              : `${currency === "USD" ? "$" : `€`}${(
-                  Number(totalVolume) / 1000000
-                ).toFixed(1)}M`
-          }`}
-        </div>
-        <div>
-          {`Market Capitalization: ${
-            marketCap?.toString().length > 9
-              ? `${currency === "USD" ? "$" : `€`}${(
-                  Number(marketCap) / 1000000000
-                ).toFixed(1)}B`
-              : `${currency === "USD" ? "$" : `€`}${(
-                  Number(marketCap) / 1000000
-                ).toFixed(1)}M`
-          }`}
-        </div>
+        <div className="flex items-center">
+          <div className="w-4/12">
+            <div className="flex justify-center">
+              <img
+                src={`${image}`}
+                width="25%"
+                height="25%"
+                className="inline mr-2"
+                alt={`${name}`}
+                title={name}
+              />
+            </div>
 
-        <img src={chart} alt={`chart for ${coin}`} width="30%" height="30%" />
+            <div className="text-6xl flex justify-center font-bold my-3">{`${name}(${symbol})`}</div>
+            <ul className="text-4xl ">
+              <li className='my-5'>
+                <span className="font-semibold">{`Rank: `}</span>
+                {rank}
+              </li>
+              <li className='my-5'>
+                <span className="font-semibold">{`Current Price: `}</span>
+                {currentPrice}
+              </li>
+              <li  className='my-5'>
+                <span className="font-semibold ">{`Market Cap: `}</span>$
+                {marketCap?.toString().length > 9
+                  ? `${currency === "USD" ? "$" : `€`}${(
+                      Number(marketCap) / 1000000000
+                    ).toFixed(1)}B`
+                  : `${currency === "USD" ? "$" : `€`}${(
+                      Number(marketCap) / 1000000
+                    ).toFixed(1)}M`}
+              </li>
+            </ul>
+
+            {/* <div dangerouslySetInnerHTML={{ __html: desc }} /> */}
+          </div>
+          <div className="w-8/12">
+            <img
+              src={chart}
+              alt={`chart for ${coin}`}
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

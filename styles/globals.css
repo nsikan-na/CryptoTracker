@@ -3,9 +3,18 @@
 @tailwind utilities;
 
 td {
-  border-bottom: 0.25px solid black;
+  border-bottom: 0.25px solid white;
 }
 
 a {
   color: blue;
+}
+body {
+  background-color: rgb(29, 28, 32);
+  color: white;
+}
+input,
+select,
+option {
+  color: black;
 }
