@@ -43,7 +43,7 @@ export default async function handler(
 
       chart.setWidth(500);
       chart.setHeight(300);
-
+      chart.setBackgroundColor("transparent");
       chart.setConfig({
         type: "line",
         data: {

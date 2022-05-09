@@ -84,7 +84,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     return setWatchList(data.watchListCoins);
   }
   return (
-    <div className="">
+    <div className="m-2 md:m-5">
       {!user ? (
         <div className="flex space-x-3 justify-end mr-2">
           <Link href="/api/auth/login">Login</Link>
@@ -160,7 +160,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 <td>Rank</td>
                 <td>Name</td>
                 <td>Price</td>
-                <td>24h</td>
+                <td>1d</td>
                 {/* market cap */}
                 {/* <td>24h Volume</td> */}
                 <td>Market Cap</td>

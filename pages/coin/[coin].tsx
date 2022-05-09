@@ -37,7 +37,7 @@ const Coin: React.FC<{}> = ({}) => {
     setName(data.name);
     setSymbol(data.symbol?.toUpperCase());
     setDesc(data.desc);
-    setImage(data.image?.small);
+    setImage(data.image?.large);
     setRank(data.market_cap_rank);
     setCurrentPrice(
       `${currency === "USD" ? "$" : `€`}${
@@ -80,11 +80,11 @@ const Coin: React.FC<{}> = ({}) => {
     getCoinInfo(coin);
   }, [coin]);
   return (
-    <div>
+    <div className="m-3 md:m-6">
       <div className={`${spinner ? "block" : "hidden"}`}>
         <CircularProgress className=" absolute inset-1/2" />
       </div>
-      <div className={`${!spinner ? "block" : "hidden"}`}>
+      <div className={`${!spinner ? "block" : "hidden"} text-xl `}>
         <button
           className="block"
           onClick={() => {
@@ -93,31 +93,35 @@ const Coin: React.FC<{}> = ({}) => {
         >
           Back
         </button>
-        <div className="flex items-center">
-          <div className="w-4/12">
+        <div className="lg:flex lg:items-center lg:justify-evenly">
+          <div className="lg:w-3/12">
             <div className="flex justify-center">
               <img
                 src={`${image}`}
-                width="25%"
-                height="25%"
+                width="20%"
+                height="20%"
                 className="inline mr-2"
                 alt={`${name}`}
                 title={name}
               />
             </div>
 
-            <div className="text-6xl flex justify-center font-bold my-3">{`${name}(${symbol})`}</div>
-            <ul className="text-4xl ">
-              <li className='my-5'>
+            <div className="text-5xl flex justify-center font-bold my-3">{`${name}`}</div>
+            <ul className="text-2xl ml-5">
+              <li className="my-5">
                 <span className="font-semibold">{`Rank: `}</span>
                 {rank}
               </li>
-              <li className='my-5'>
+              <li className="my-5">
+                <span className="font-semibold">{`Symbol: `}</span>
+                {symbol}
+              </li>
+              <li className="my-5">
                 <span className="font-semibold">{`Current Price: `}</span>
                 {currentPrice}
               </li>
-              <li  className='my-5'>
-                <span className="font-semibold ">{`Market Cap: `}</span>$
+              <li className="my-5">
+                <span className="font-semibold ">{`Market Cap: `}</span>
                 {marketCap?.toString().length > 9
                   ? `${currency === "USD" ? "$" : `€`}${(
                       Number(marketCap) / 1000000000
@@ -130,13 +134,17 @@ const Coin: React.FC<{}> = ({}) => {
 
             {/* <div dangerouslySetInnerHTML={{ __html: desc }} /> */}
           </div>
-          <div className="w-8/12">
-            <img
-              src={chart}
-              alt={`chart for ${coin}`}
-              width="100%"
-              height="100%"
-            />
+          <div className="lg:w-7/12">
+            <div className="text-center mb-10 text-2xl">{`Last 7 days`}</div>
+            <div className="flex justify-center item-center">
+              <img
+                src={chart}
+                alt={`chart for ${coin}`}
+                width="50%"
+                height="50%"
+                className="scale-150 mt-5"
+              />
+            </div>
           </div>
         </div>
       </div>
