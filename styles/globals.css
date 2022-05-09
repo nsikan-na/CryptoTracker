@@ -10,11 +10,18 @@ a {
   color: blue;
 }
 body {
-  background-color: rgb(29, 28, 32);
+  background-color: #1f2128;
+
   color: white;
 }
+
 input,
 select,
 option {
   color: black;
+  background-color: #1f2128;
+  border:0px solid #1f2128
+}
+.secondaryColorBg{
+  background-color:#191b1f
 }

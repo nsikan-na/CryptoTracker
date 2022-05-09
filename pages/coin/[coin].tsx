@@ -49,27 +49,29 @@ const Coin: React.FC<{}> = ({}) => {
     setHours(
       `${
         currency === "USD"
-          ? data.hours.usd.toFixed(2)
-          : data.hours.eur.toFixed(2)
+          ? data.hours?.usd.toFixed(2)
+          : data.hours?.eur.toFixed(2)
       }`
     );
     setDays(
       `${
-        currency === "USD" ? data.days.usd.toFixed(2) : data.days.eur.toFixed(2)
+        currency === "USD"
+          ? data.days?.usd.toFixed(2)
+          : data.days?.eur.toFixed(2)
       }`
     );
     setMonths(
       `${
         currency === "USD"
-          ? data.months.usd.toFixed(2)
-          : data.months.eur.toFixed(2)
+          ? data.months?.usd.toFixed(2)
+          : data.months?.eur.toFixed(2)
       }`
     );
     setTotalVolume(
-      currency === "USD" ? data.total_volume.usd : data.total_volume.eur
+      currency === "USD" ? data.total_volume?.usd : data.total_volume?.eur
     );
     setMarketCap(
-      currency === "USD" ? data.market_cap.usd : data.market_cap.eur
+      currency === "USD" ? data.market_cap?.usd : data.market_cap?.eur
     );
     setChart(data.chart);
     setTimeout(() => {
@@ -80,21 +82,21 @@ const Coin: React.FC<{}> = ({}) => {
     getCoinInfo(coin);
   }, [coin]);
   return (
-    <div className="m-3 md:m-6">
+    <div className="m-3 md:m-6 ">
       <div className={`${spinner ? "block" : "hidden"}`}>
         <CircularProgress className=" absolute inset-1/2" />
       </div>
-      <div className={`${!spinner ? "block" : "hidden"} text-xl `}>
+      <div className={`${!spinner ? "block" : "hidden"} text-lg `}>
         <button
-          className="block"
+          className="block rounded-2xl secondaryColorBg py-1 px-3 mb-3 font-semibold"
           onClick={() => {
             router.back();
           }}
         >
           Back
         </button>
-        <div className="lg:flex lg:items-center lg:justify-evenly">
-          <div className="lg:w-3/12">
+        <div className="lg:flex lg:items-center lg:justify-evenly ">
+          <div className="lg:w-3/12 secondaryColorBg py-5 mb-2 rounded-2xl">
             <div className="flex justify-center">
               <img
                 src={`${image}`}
@@ -106,21 +108,21 @@ const Coin: React.FC<{}> = ({}) => {
               />
             </div>
 
-            <div className="text-5xl flex justify-center font-bold my-3">{`${name}`}</div>
-            <ul className="text-2xl ml-5">
-              <li className="my-5">
+            <div className="text-3xl flex justify-center font-bold my-3">{`${name}`}</div>
+            <ul className="text-xl ml-5">
+              <li className="my-1">
                 <span className="font-semibold">{`Rank: `}</span>
                 {rank}
               </li>
-              <li className="my-5">
+              <li className="my15">
                 <span className="font-semibold">{`Symbol: `}</span>
                 {symbol}
               </li>
-              <li className="my-5">
+              <li className="my-1">
                 <span className="font-semibold">{`Current Price: `}</span>
                 {currentPrice}
               </li>
-              <li className="my-5">
+              <li className="my-1">
                 <span className="font-semibold ">{`Market Cap: `}</span>
                 {marketCap?.toString().length > 9
                   ? `${currency === "USD" ? "$" : `€`}${(
@@ -134,15 +136,15 @@ const Coin: React.FC<{}> = ({}) => {
 
             {/* <div dangerouslySetInnerHTML={{ __html: desc }} /> */}
           </div>
-          <div className="lg:w-7/12">
-            <div className="text-center mb-10 text-2xl">{`Last 7 days`}</div>
+          <div className="lg:w-7/12 secondaryColorBg rounded-2xl">
+            <div className="text-center py-2 text-2xl font-semibold">{`Last 7 days`}</div>
             <div className="flex justify-center item-center">
               <img
                 src={chart}
                 alt={`chart for ${coin}`}
-                width="50%"
-                height="50%"
-                className="scale-150 mt-5"
+                width="75%"
+                height="75%"
+                className="mt-5 rounded-md pb-3"
               />
             </div>
           </div>

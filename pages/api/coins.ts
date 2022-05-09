@@ -30,6 +30,11 @@ export default async function handler(
         total_volume,
         market_cap,
       } = coinData.market_data;
+      const color =
+        price_change_percentage_24h_in_currency.usd < 0 &&
+        price_change_percentage_24h_in_currency.eur < 0
+          ? ["#EA0F0F"]
+          : ["#00A300"];
       const fetchChart = await fetch(
         `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=${currency.toLowerCase()}&days=7`
       );
@@ -50,7 +55,7 @@ export default async function handler(
           labels: index,
           datasets: [
             {
-              borderColor: ["#0000ff"],
+              borderColor: color,
               data: data,
               fill: false,
               borderWidth: 5,

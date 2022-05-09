@@ -86,208 +86,205 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   return (
     <div className="m-2 md:m-5">
       {!user ? (
-        <div className="flex space-x-3 justify-end mr-2">
-          <Link href="/api/auth/login">Login</Link>
+        <div className="flex space-x-3 justify-end mr-2 ">
+          <Link href="/api/auth/login">
+            <a className="secondaryColorBg rounded-2xl py-2 px-4">Login</a>
+          </Link>
         </div>
       ) : (
         <div className="flex space-x-3  justify-end mr-2">
-          <div>{user.nickname}</div>
-          <Link href="/api/auth/logout">Logout</Link>
+          <div className="py-2 px-1">{user.nickname}</div>
+          <Link href="/api/auth/logout">
+            <a className="secondaryColorBg rounded-2xl py-2 px-4">Logout</a>
+          </Link>
         </div>
       )}
-      <h1 className="text-center font-semibold text-2xl my-4">
-        Top Coins by Market Capitalization
-      </h1>
-      <div
-        className="text-center cursor-pointer"
-        onClick={() => {
-          setViewWatchList(!viewWatchList);
-        }}
-      >
-        View Watch List
-      </div>
-      <div className="flex justify-evenly">
-        <input
-          ref={inputRef}
-          style={{ border: "1px solid black" }}
-          className="rounded-md px-2 py-1"
-          type="text"
-          placeholder="Search"
-          onChange={(e) => {
-            setData([]);
-            if (e.target.value.length === 0) {
-              setSearch(false);
-              return coinData.forEach((coin: any, i: any) => {
-                if (i >= pageNum * 10) return;
-                if (i <= pageNum * 10 - 11) return;
-                setData((prev: any): any => [...prev, coin]);
+      <div className="secondaryColorBg rounded-2xl p-4 mx-2 my-4">
+        <div className="flex justify-evenly">
+          <input
+            ref={inputRef}
+            className="rounded-md px-2 py-1 mx-1"
+            type="text"
+            placeholder="Search"
+            onChange={(e) => {
+              setData([]);
+              if (e.target.value.length === 0) {
+                setSearch(false);
+                return coinData.forEach((coin: any, i: any) => {
+                  if (i >= pageNum * 10) return;
+                  if (i <= pageNum * 10 - 11) return;
+                  setData((prev: any): any => [...prev, coin]);
+                });
+              } else {
+                setSearch(true);
+              }
+
+              coinData.filter((coin: any) => {
+                if (
+                  !coin.name.toLowerCase().includes(e.target.value) &&
+                  !coin.symbol.toLowerCase().includes(e.target.value)
+                )
+                  return;
+                return setData((prev: any): any => [...prev, coin]);
               });
-            } else {
-              setSearch(true);
-            }
-
-            coinData.filter((coin: any) => {
-              if (
-                !coin.name.toLowerCase().includes(e.target.value) &&
-                !coin.symbol.toLowerCase().includes(e.target.value)
-              )
-                return;
-              return setData((prev: any): any => [...prev, coin]);
-            });
+            }}
+          />
+          <select
+            className="rounded-md px-2 py-1 mx-1"
+            onChange={(e) => {
+              setCurrency(e.target.value);
+            }}
+            value={currency}
+          >
+            <option>USD</option>
+            <option>EUR</option>
+          </select>
+        </div>{" "}
+        <div
+          className="text-center cursor-pointer mt-2 "
+          onClick={() => {
+            setViewWatchList(!viewWatchList);
           }}
-        />
-        <select
-          style={{ border: "1px solid black" }}
-          className="rounded-md px-2 py-1"
-          onChange={(e) => {
-            setCurrency(e.target.value);
-          }}
-          value={currency}
         >
-          <option>USD</option>
-          <option>EUR</option>
-        </select>
+          View Watch List
+        </div>
       </div>
-      <div className={`${spinner ? "block" : "hidden"}`}>
-        <CircularProgress className=" absolute top-1/3 left-1/2 right-1/2 " />
-      </div>
-      <div className={`${!spinner ? "block" : "hidden"}`}>
-        {data.length !== 0 ? (
-          <table className="w-10/12 mx-auto">
-            <thead>
-              <tr>
-                <td></td>
-                <td>Rank</td>
-                <td>Name</td>
-                <td>Price</td>
-                <td>1d</td>
-                {/* market cap */}
-                {/* <td>24h Volume</td> */}
-                <td>Market Cap</td>
-              </tr>
-            </thead>
-            <tbody className="">
-              {data.map((coin: any) => (
-                <tr key={coin.id}>
-                  <td>
-                    {user ? (
-                      !watchList?.some((c) => {
-                        return c === coin.name;
-                      }) ? (
-                        <StarBorderIcon
-                          className="text-yellow-300 cursor-pointer"
-                          onClick={() => {
-                            watchListHandler(coin.name, "Add");
-                          }}
-                        />
-                      ) : (
-                        <StarIcon
-                          className="text-yellow-300 cursor-pointer"
-                          onClick={() => {
-                            watchListHandler(coin.name, "Sub");
-                          }}
-                        />
-                      )
-                    ) : (
-                      ""
-                    )}
-                  </td>
-                  <td>{coin.market_cap_rank}</td>
-                  <td className="">
-                    <span>
-                      <img
-                        src={`${coin.image}`}
-                        width="7%"
-                        height="7%"
-                        className="inline mr-2"
-                        alt={`${coin.name}`}
-                        title={`${coin.name}'s Symbol`}
-                      />
-                    </span>
-                    <span
-                      title={`Click to see more of ${coin.name}!`}
-                      className="cursor-pointer hover:text-blue-500 hover:underline"
-                      onClick={() => {
-                        router.push(`/coin/${coin.id}`);
-                      }}
-                    >{`${coin.name} (${coin.symbol.toUpperCase()})`}</span>
-                  </td>
-                  <td>
-                    {currency === "USD" ? "$" : `€`}
-                    {Intl.NumberFormat().format(coin.current_price.toFixed(2))}
-                  </td>
-                  <td
-                    className={`${
-                      coin.price_change_percentage_24h > 0
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {coin.price_change_percentage_24h > 0
-                      ? `+${coin.price_change_percentage_24h.toFixed(2)}%`
-                      : `${coin.price_change_percentage_24h.toFixed(2)}%`}
-                  </td>
-                  {/* <td>
-                    {coin.total_volume.toString().length > 9
-                      ? `${currency === "USD" ? "$" : `€`}${(
-                          coin.total_volume / 1000000000
-                        ).toFixed(1)}B`
-                      : `${currency === "USD" ? "$" : `€`}${(
-                          coin.total_volume / 1000000
-                        ).toFixed(1)}M`}
-                  </td> */}
-                  <td>
-                    {coin.market_cap.toString().length > 9
-                      ? `${currency === "USD" ? "$" : `€`}${(
-                          coin.market_cap / 1000000000
-                        ).toFixed(1)}B`
-                      : `${currency === "USD" ? "$" : `€`}${(
-                          coin.market_cap / 1000000
-                        ).toFixed(1)}M`}
-                  </td>
+      <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4">
+        <div className={`${spinner ? "block" : "hidden"}`}>
+          <CircularProgress className=" absolute inset-1/2 " />
+        </div>
+        <h1 className="text-center font-semibold text-2xl my-4">
+          Top Coins by Market Capitalization
+        </h1>
+        <div className={`${!spinner ? "block" : "hidden"}`}>
+          {data.length !== 0 ? (
+            <table className="w-10/12 mx-auto">
+              <thead>
+                <tr>
+                  <td className="hidden md:block">Rank</td>
+                  <td></td>
+                  <td>Name</td>
+                  <td>Price</td>
+                  <td className="hidden md:block">1d</td>
+                  <td className="hidden md:block">Market Cap</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <h1 className="flex justify-center text-red-600">
-            {search
-              ? `No supported crypto coin's name or symbol match this search!`
-              : `You have no coins in your watch list!`}
-          </h1>
-        )}
+              </thead>
+              <tbody className="">
+                {data.map((coin: any) => (
+                  <tr key={coin.id}>
+                    <td className="hidden md:block">{coin.market_cap_rank}</td>
+                    <td className="">
+                      {user ? (
+                        !watchList?.some((c) => {
+                          return c === coin.name;
+                        }) ? (
+                          <StarBorderIcon
+                            className="text-yellow-300 cursor-pointer"
+                            onClick={() => {
+                              watchListHandler(coin.name, "Add");
+                            }}
+                          />
+                        ) : (
+                          <StarIcon
+                            className="text-yellow-300 cursor-pointer"
+                            onClick={() => {
+                              watchListHandler(coin.name, "Sub");
+                            }}
+                          />
+                        )
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td className="">
+                      <span>
+                        <img
+                          src={`${coin.image}`}
+                          className="inline mr-2 w-2/12"
+                          alt={`${coin.name}`}
+                          title={`${coin.name}'s Symbol`}
+                        />
+                      </span>
+                      <span
+                        title={`Click to see more of ${coin.name}!`}
+                        className="cursor-pointer hover:text-blue-500 hover:underline"
+                        onClick={() => {
+                          router.push(`/coin/${coin.id}`);
+                        }}
+                      >{`${coin.name}`}</span>
+                      <span className="hidden md:block">{`(${coin.symbol.toUpperCase()})`}</span>
+                    </td>
+                    <td>
+                      {currency === "USD" ? "$" : `€`}
+                      {Intl.NumberFormat().format(
+                        coin.current_price.toFixed(2)
+                      )}
+                    </td>
+                    <td
+                      className={`${
+                        coin.price_change_percentage_24h > 0
+                          ? "text-green-600"
+                          : "text-red-600"
+                      } hidden md:block`}
+                    >
+                      {coin.price_change_percentage_24h > 0
+                        ? `+${coin.price_change_percentage_24h.toFixed(2)}%`
+                        : `${coin.price_change_percentage_24h.toFixed(2)}%`}
+                    </td>
 
-        {!search && !viewWatchList ? (
-          <div className="flex justify-center space-x-5">
-            {pageNum != 1 ? (
-              <div
-                className="inline cursor-pointer"
-                onClick={() => {
-                  setPageNum(pageNum - 1);
-                }}
-              >
-                <KeyboardArrowLeftIcon />
-              </div>
-            ) : (
-              ""
-            )}
-            <div className="inline text-blue-500">{pageNum}</div>
-            {pageNum != 10 ? (
-              <div
-                className="inline cursor-pointer"
-                onClick={() => {
-                  setPageNum(pageNum + 1);
-                }}
-              >
-                <KeyboardArrowRightIcon />
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-        ) : (
-          ""
-        )}
+                    <td className="hidden md:block">
+                      {coin.market_cap.toString().length > 9
+                        ? `${currency === "USD" ? "$" : `€`}${(
+                            coin.market_cap / 1000000000
+                          ).toFixed(1)}B`
+                        : `${currency === "USD" ? "$" : `€`}${(
+                            coin.market_cap / 1000000
+                          ).toFixed(1)}M`}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <h1 className="flex justify-center text-red-600">
+              {search
+                ? `No supported crypto coin's name or symbol match this search!`
+                : `You have no coins in your watch list!`}
+            </h1>
+          )}
+
+          {!search && !viewWatchList ? (
+            <div className="flex justify-center space-x-5 py-3">
+              {pageNum != 1 ? (
+                <div
+                  className="inline cursor-pointer"
+                  onClick={() => {
+                    setPageNum(pageNum - 1);
+                  }}
+                >
+                  <KeyboardArrowLeftIcon />
+                </div>
+              ) : (
+                ""
+              )}
+              <div className="inline ">{pageNum}</div>
+              {pageNum != 10 ? (
+                <div
+                  className="inline cursor-pointer"
+                  onClick={() => {
+                    setPageNum(pageNum + 1);
+                  }}
+                >
+                  <KeyboardArrowRightIcon />
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </div>
   );
