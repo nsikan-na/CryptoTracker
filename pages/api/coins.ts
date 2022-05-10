@@ -95,13 +95,14 @@ export default async function handler(
         desc: coinData.description.en,
         current_price,
         image,
-        hours: price_change_percentage_24h_in_currency,
-        days: price_change_percentage_7d_in_currency,
-        months: price_change_percentage_30d_in_currency,
+        day: price_change_percentage_24h_in_currency,
+        week: price_change_percentage_7d_in_currency,
+        month: price_change_percentage_30d_in_currency,
         total_volume,
         market_cap_rank,
         market_cap: market_cap,
         chart: chart.getUrl(),
+        link: coinData.links.homepage[0],
       });
     } catch (error: any) {
       res.json({ error });

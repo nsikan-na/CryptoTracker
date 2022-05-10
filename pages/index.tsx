@@ -161,7 +161,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             <table className="w-10/12 mx-auto">
               <thead>
                 <tr>
-                  <td className="hidden md:block">Rank</td>
+                  <td className="hidden md:block">#</td>
                   <td></td>
                   <td>Name</td>
                   <td>Price</td>

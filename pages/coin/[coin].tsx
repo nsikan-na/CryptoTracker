@@ -13,13 +13,14 @@ const Coin: React.FC<{}> = ({}) => {
   const [rank, setRank] = useState("");
   const [currentPrice, setCurrentPrice] = useState("");
   const [image, setImage] = useState("");
-  const [hours, setHours] = useState("");
-  const [days, setDays] = useState("");
+  const [day, setDay] = useState("");
+  const [week, setWeek] = useState("");
   const [month, setMonths] = useState("");
   const [totalVolume, setTotalVolume] = useState("");
   const [marketCap, setMarketCap] = useState("");
   const [chart, setChart] = useState("");
   const [spinner, setSpinner] = useState(true);
+  const [link, setLink] = useState("");
   async function getCoinInfo(coin: any) {
     //fetch coins information form
     const response = await fetch(`/api/coins`, {
@@ -46,25 +47,23 @@ const Coin: React.FC<{}> = ({}) => {
           : Intl.NumberFormat().format(data.current_price?.eur)
       }`
     );
-    setHours(
+    setDay(
       `${
-        currency === "USD"
-          ? data.hours?.usd.toFixed(2)
-          : data.hours?.eur.toFixed(2)
+        currency === "USD" ? data.day?.usd.toFixed(2) : data.day?.eur.toFixed(2)
       }`
     );
-    setDays(
+    setWeek(
       `${
         currency === "USD"
-          ? data.days?.usd.toFixed(2)
-          : data.days?.eur.toFixed(2)
+          ? data.week?.usd.toFixed(2)
+          : data.week?.eur.toFixed(2)
       }`
     );
     setMonths(
       `${
         currency === "USD"
-          ? data.months?.usd.toFixed(2)
-          : data.months?.eur.toFixed(2)
+          ? data.month?.usd.toFixed(2)
+          : data.month?.eur.toFixed(2)
       }`
     );
     setTotalVolume(
@@ -74,10 +73,12 @@ const Coin: React.FC<{}> = ({}) => {
       currency === "USD" ? data.market_cap?.usd : data.market_cap?.eur
     );
     setChart(data.chart);
+    setLink(data.link);
     setTimeout(() => {
       setSpinner(false);
     }, 300);
   }
+
   useEffect(() => {
     getCoinInfo(coin);
   }, [coin]);
@@ -102,13 +103,15 @@ const Coin: React.FC<{}> = ({}) => {
                 src={`${image}`}
                 width="20%"
                 height="20%"
-                className="inline mr-2"
+                className="blo mr-2"
                 alt={`${name}`}
                 title={name}
               />
             </div>
-
             <div className="text-3xl flex justify-center font-bold my-3">{`${name}`}</div>
+            <a target="_blank" className="flex justify-center">{`${link}`}</a>
+          </div>
+          <div className="lg:w-3/12 secondaryColorBg py-5 mb-2 rounded-2xl">
             <ul className="text-xl ml-5">
               <li className="my-1">
                 <span className="font-semibold">{`Rank: `}</span>
@@ -122,6 +125,26 @@ const Coin: React.FC<{}> = ({}) => {
                 <span className="font-semibold">{`Current Price: `}</span>
                 {currentPrice}
               </li>
+              {[
+                { time: "1", data: day },
+                { time: "7", data: week },
+                { time: "30", data: month },
+              ].map((x: { time: string; data: string }, i) => (
+                <li key={i} className={`my-1`}>
+                  {`${x.time}D: `}
+                  <span
+                    className={`${
+                      Number(x.data) > 0 ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {`${
+                      Number(x.data) > 0
+                        ? `+${Number(x.data).toFixed(2)}%`
+                        : `${Number(x.data).toFixed(2)}%`
+                    }`}
+                  </span>
+                </li>
+              ))}
               <li className="my-1">
                 <span className="font-semibold ">{`Market Cap: `}</span>
                 {marketCap?.toString().length > 9
@@ -132,9 +155,18 @@ const Coin: React.FC<{}> = ({}) => {
                       Number(marketCap) / 1000000
                     ).toFixed(1)}M`}
               </li>
+              <li className="my-1">
+                {`Total Volume: ${
+                  totalVolume?.toString().length > 9
+                    ? `${currency === "USD" ? "$" : `€`}${(
+                        Number(totalVolume) / 1000000000
+                      ).toFixed(1)}B`
+                    : `${currency === "USD" ? "$" : `€`}${(
+                        Number(totalVolume) / 1000000
+                      ).toFixed(1)}M`
+                }`}
+              </li>
             </ul>
-
-            {/* <div dangerouslySetInnerHTML={{ __html: desc }} /> */}
           </div>
           <div className="lg:w-7/12 secondaryColorBg rounded-2xl">
             <div className="text-center py-2 text-2xl font-semibold">{`Last 7 days`}</div>
@@ -150,6 +182,10 @@ const Coin: React.FC<{}> = ({}) => {
           </div>
         </div>
       </div>
+      <div
+        className="lg:w-7/12 secondaryColorBg rounded-2xl my-3 p-4 indent-7"
+        dangerouslySetInnerHTML={{ __html: desc }}
+      />
     </div>
   );
 };
