@@ -120,6 +120,7 @@ const Coin: React.FC<{}> = ({}) => {
               <div className="text-3xl flex justify-center font-bold my-3">{`${name}`}</div>
               <a
                 target="_blank"
+                rel="noreferrer"
                 href={link}
                 className="flex justify-center text-blue-300 hover:text-blue-500 cursor-pointer"
               >{`${link}`}</a>
