@@ -8,6 +8,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CircularProgress from "@mui/material/CircularProgress";
+import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   coinDataUsd,
   coinDataEur,
@@ -26,8 +27,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 
   useEffect(() => {
     if (!user) return;
-    watchListHandler(user, "");
-  }, [user, watchList]);
+    getWL(user).then((x) => {
+      setWatchList(x);
+    });
+  }, [user]);
 
   useEffect(() => {
     if (search) return;
@@ -55,11 +58,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     setViewWatchList(false);
     currency === "USD" ? setCoinData(coinDataUsd) : setCoinData(coinDataEur);
   }, [currency]);
+
   useEffect(() => {
     setTimeout(() => {
       setSpinner(false);
     }, 400);
   }, []);
+
   useEffect(() => {
     setData([]);
     coinData.forEach((coin: any, i: any) => {
@@ -68,21 +73,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       setData((prev: any): any => [...prev, coin]);
     });
   }, [pageNum, coinData]);
-  async function watchListHandler(coin: any, action: string) {
-    const response = await fetch(`/api/watchList`, {
-      method: "POST",
-      body: JSON.stringify({
-        coin,
-        user,
-        action,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return setWatchList(data.watchListCoins);
-  }
+
   return (
     <div className="m-2 md:m-5">
       {!user ? (
@@ -165,7 +156,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                   <td></td>
                   <td>Name</td>
                   <td>Price</td>
-                  <td className="hidden md:block">1d</td>
+                  <td className="hidden md:block">7d</td>
                   <td className="hidden md:block">Market Cap</td>
                 </tr>
               </thead>
@@ -181,14 +172,18 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                           <StarBorderIcon
                             className="text-yellow-300 cursor-pointer"
                             onClick={() => {
-                              watchListHandler(coin.name, "Add");
+                              addToWL(coin.name, user).then((x) => {
+                                setWatchList(x);
+                              });
                             }}
                           />
                         ) : (
                           <StarIcon
                             className="text-yellow-300 cursor-pointer"
                             onClick={() => {
-                              watchListHandler(coin.name, "Sub");
+                              removeFromWL(coin.name, user).then((x) => {
+                                setWatchList(x);
+                              });
                             }}
                           />
                         )

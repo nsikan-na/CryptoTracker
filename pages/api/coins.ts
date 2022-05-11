@@ -31,8 +31,8 @@ export default async function handler(
         market_cap,
       } = coinData.market_data;
       const color =
-        price_change_percentage_24h_in_currency.usd < 0 &&
-        price_change_percentage_24h_in_currency.eur < 0
+        price_change_percentage_7d_in_currency.usd < 0 &&
+        price_change_percentage_7d_in_currency.eur < 0
           ? ["#EA0F0F"]
           : ["#00A300"];
       const fetchChart = await fetch(

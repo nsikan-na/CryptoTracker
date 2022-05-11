@@ -4,6 +4,8 @@ import { useUser } from "@auth0/nextjs-auth0";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Context } from "../_app";
 import { useRouter } from "next/router";
+import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
+
 const Coin: React.FC<{}> = ({}) => {
   const { user, error, isLoading } = useUser();
   const { currency }: any = useContext(Context);
@@ -23,26 +25,8 @@ const Coin: React.FC<{}> = ({}) => {
   const [chart, setChart] = useState("");
   const [spinner, setSpinner] = useState(true);
   const [link, setLink] = useState("");
-  const [onWatchList, setOnWatchList] = useState(false);
-  async function watchListHandler(coin: any, action: string) {
-    const response = await fetch(`/api/watchList`, {
-      method: "POST",
-      body: JSON.stringify({
-        coin,
-        user,
-        action,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    if (data.watchListCoins?.length === 0) return;
-    return data.watchListCoins?.some((c: any) => {
-      console.log(c);
-      return c.toLowerCase() === coin;
-    });
-  }
+  const [watchList, setWatchList] = useState<string[]>([]);
+
   async function getCoinInfo(coin: any) {
     //fetch coins information form
     const response = await fetch(`/api/coins`, {
@@ -103,7 +87,11 @@ const Coin: React.FC<{}> = ({}) => {
 
   useEffect(() => {
     getCoinInfo(coin);
-  }, [coin]);
+    getWL(user).then((x) => {
+      setWatchList(x);
+    });
+  }, [coin, user]);
+
   return (
     <div className="m-3 md:m-6 ">
       <div className={`${spinner ? "block" : "hidden"}`}>
@@ -208,26 +196,41 @@ const Coin: React.FC<{}> = ({}) => {
         className="lg:w-7/12 secondaryColorBg rounded-2xl my-3 p-4 indent-7"
         dangerouslySetInnerHTML={{ __html: desc }}
       />
-      {onWatchList ? (
-        <div
-          className="lg:w-7/12 secondaryColorBg rounded-2xl my-3 p-4 text-center"
-          onClick={() => {
-            watchListHandler(coin, "Sub");
-            setOnWatchList(false);
-          }}
-        >
-          Remove to Watch List
+      {user ? (
+        <div>
+          {watchList?.some((c: any) => {
+            return c.toLowerCase() === coin;
+          }) ? (
+            <div
+              className="lg:w-7/12 secondaryColorBg rounded-2xl my-3 p-4 text-center"
+              onClick={() => {
+                removeFromWL(
+                  coin[0].toUpperCase() + coin.substring(1),
+                  user
+                ).then((x) => {
+                  setWatchList(x);
+                });
+              }}
+            >
+              Remove to Watch List
+            </div>
+          ) : (
+            <div
+              className="lg:w-7/12 secondaryColorBg rounded-2xl my-3 p-4 text-center"
+              onClick={() => {
+                addToWL(coin[0].toUpperCase() + coin.substring(1), user).then(
+                  (x) => {
+                    setWatchList(x);
+                  }
+                );
+              }}
+            >
+              Add to Watch List
+            </div>
+          )}
         </div>
       ) : (
-        <div
-          className="lg:w-7/12 secondaryColorBg rounded-2xl my-3 p-4 text-center"
-          onClick={() => {
-            watchListHandler(coin, "Add");
-            setOnWatchList(true);
-          }}
-        >
-          Add to Watch List
-        </div>
+        ""
       )}
     </div>
   );
