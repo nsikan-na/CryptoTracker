@@ -90,7 +90,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           </Link>
         </div>
       )}
-      <div className="secondaryColorBg rounded-2xl p-4 mx-2 my-4">
+      <div className="secondaryColorBg rounded-2xl py-4 mx-2 my-4 xl:w-7/12 xl:mx-auto 2xl:w-6/12">
         <div className="flex justify-evenly">
           <input
             ref={inputRef}
@@ -145,7 +145,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       </div>
 
       <div className={`${!spinner ? "block" : "hidden"}`}>
-        <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4 ">
+        <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4 xl:w-7/12 xl:mx-auto 2xl:w-6/12 ">
           <h1 className="text-center font-semibold text-2xl my-4">
             Top Coins by Market Capitalization
           </h1>
@@ -228,7 +228,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                       <td className=""></td>
                       <td className="pl-10">Name</td>
                       <td>Price</td>
-                      <td className="">7d</td>
                       <td className="">Market Cap</td>
                     </tr>
                   </thead>
@@ -287,17 +286,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                             coin.current_price.toFixed(2)
                           )}
                         </td>
-                        <td
-                          className={`${
-                            coin.price_change_percentage_24h > 0
-                              ? "text-green-600"
-                              : "text-red-600"
-                          } `}
-                        >
-                          {coin.price_change_percentage_24h > 0
-                            ? `+${coin.price_change_percentage_24h.toFixed(2)}%`
-                            : `${coin.price_change_percentage_24h.toFixed(2)}%`}
-                        </td>
+                        
 
                         <td className="">
                           {coin.market_cap.toString().length > 9
