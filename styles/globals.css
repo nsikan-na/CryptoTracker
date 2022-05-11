@@ -7,7 +7,10 @@ td {
 }
 
 a {
-  color: blue;
+  color: rgb(147, 197, 253);
+}
+a:hover {
+  color: rgb(59, 130, 246);
 }
 body {
   background-color: #1f2128;
@@ -18,10 +21,10 @@ body {
 input,
 select,
 option {
-  color: black;
+  color: white;
   background-color: #1f2128;
-  border:0px solid #1f2128
+  border: 0px solid #1f2128;
 }
-.secondaryColorBg{
-  background-color:#191b1f
+.secondaryColorBg {
+  background-color: #191b1f;
 }

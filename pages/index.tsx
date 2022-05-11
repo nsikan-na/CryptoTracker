@@ -62,7 +62,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   useEffect(() => {
     setTimeout(() => {
       setSpinner(false);
-    }, 400);
+    }, 300);
   }, []);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   }, [pageNum, coinData]);
 
   return (
-    <div className="m-2 md:m-5">
+    <div className="m-2 md:m-5 md:mx-7  lg:mx-32 ">
       {!user ? (
         <div className="flex space-x-3 justify-end mr-2 ">
           <Link href="/api/auth/login">
@@ -121,7 +121,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             }}
           />
           <select
-            className="rounded-md px-2 py-1 mx-1"
+            className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
             onChange={(e) => {
               setCurrency(e.target.value);
             }}
@@ -130,9 +130,9 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             <option>USD</option>
             <option>EUR</option>
           </select>
-        </div>{" "}
+        </div>
         <div
-          className="text-center cursor-pointer mt-2 "
+          className="text-center mt-2 cursor-pointer text-blue-300 hover:text-blue-500"
           onClick={() => {
             setViewWatchList(!viewWatchList);
           }}
@@ -140,106 +140,180 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           View Watch List
         </div>
       </div>
-      <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4">
-        <div className={`${spinner ? "block" : "hidden"}`}>
-          <CircularProgress className=" absolute inset-1/2 " />
-        </div>
-        <h1 className="text-center font-semibold text-2xl my-4">
-          Top Coins by Market Capitalization
-        </h1>
-        <div className={`${!spinner ? "block" : "hidden"}`}>
-          {data.length !== 0 ? (
-            <table className="w-10/12 mx-auto">
-              <thead>
-                <tr>
-                  <td className="hidden md:block">#</td>
-                  <td></td>
-                  <td>Name</td>
-                  <td>Price</td>
-                  <td className="hidden md:block">7d</td>
-                  <td className="hidden md:block">Market Cap</td>
-                </tr>
-              </thead>
-              <tbody className="">
-                {data.map((coin: any) => (
-                  <tr key={coin.id}>
-                    <td className="hidden md:block">{coin.market_cap_rank}</td>
-                    <td className="">
-                      {user ? (
-                        !watchList?.some((c) => {
-                          return c === coin.name;
-                        }) ? (
-                          <StarBorderIcon
-                            className="text-yellow-300 cursor-pointer"
-                            onClick={() => {
-                              addToWL(coin.name, user).then((x) => {
-                                setWatchList(x);
-                              });
-                            }}
-                          />
-                        ) : (
-                          <StarIcon
-                            className="text-yellow-300 cursor-pointer"
-                            onClick={() => {
-                              removeFromWL(coin.name, user).then((x) => {
-                                setWatchList(x);
-                              });
-                            }}
-                          />
-                        )
-                      ) : (
-                        ""
-                      )}
-                    </td>
-                    <td className="">
-                      <span>
-                        <img
-                          src={`${coin.image}`}
-                          className="inline mr-2 w-2/12"
-                          alt={`${coin.name}`}
-                          title={`${coin.name}'s Symbol`}
-                        />
-                      </span>
-                      <span
-                        title={`Click to see more of ${coin.name}!`}
-                        className="cursor-pointer hover:text-blue-500 hover:underline"
-                        onClick={() => {
-                          router.push(`/coin/${coin.id}`);
-                        }}
-                      >{`${coin.name}`}</span>
-                      <span className="hidden md:block">{`(${coin.symbol.toUpperCase()})`}</span>
-                    </td>
-                    <td>
-                      {currency === "USD" ? "$" : `€`}
-                      {Intl.NumberFormat().format(
-                        coin.current_price.toFixed(2)
-                      )}
-                    </td>
-                    <td
-                      className={`${
-                        coin.price_change_percentage_24h > 0
-                          ? "text-green-600"
-                          : "text-red-600"
-                      } hidden md:block`}
-                    >
-                      {coin.price_change_percentage_24h > 0
-                        ? `+${coin.price_change_percentage_24h.toFixed(2)}%`
-                        : `${coin.price_change_percentage_24h.toFixed(2)}%`}
-                    </td>
+      <div className={`${spinner ? "block" : "hidden"}`}>
+        <CircularProgress className=" absolute inset-1/2 " />
+      </div>
 
-                    <td className="hidden md:block">
-                      {coin.market_cap.toString().length > 9
-                        ? `${currency === "USD" ? "$" : `€`}${(
-                            coin.market_cap / 1000000000
-                          ).toFixed(1)}B`
-                        : `${currency === "USD" ? "$" : `€`}${(
-                            coin.market_cap / 1000000
-                          ).toFixed(1)}M`}
-                    </td>
+      <div className={`${!spinner ? "block" : "hidden"}`}>
+        <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4 ">
+          <h1 className="text-center font-semibold text-2xl my-4">
+            Top Coins by Market Capitalization
+          </h1>
+          {data.length !== 0 ? (
+            <div className="">
+              <table className="w-10/12 mx-auto md:hidden">
+                {/* Mobile table*/}
+
+                <thead>
+                  <tr>
+                    <td className=""></td>
+                    <td>Name</td>
+                    <td>Price</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="">
+                  {data.map((coin: any) => (
+                    <tr key={coin.id}>
+                      <td className="">
+                        {user ? (
+                          !watchList?.some((c) => {
+                            return c === coin.name;
+                          }) ? (
+                            <StarBorderIcon
+                              className="text-yellow-300 cursor-pointer"
+                              onClick={() => {
+                                addToWL(coin.name, user).then((x) => {
+                                  setWatchList(x);
+                                });
+                              }}
+                            />
+                          ) : (
+                            <StarIcon
+                              className="text-yellow-300 cursor-pointer"
+                              onClick={() => {
+                                removeFromWL(coin.name, user).then((x) => {
+                                  setWatchList(x);
+                                });
+                              }}
+                            />
+                          )
+                        ) : (
+                          ""
+                        )}
+                      </td>
+                      <td className="">
+                        <span>
+                          <img
+                            src={`${coin.image}`}
+                            className="inline mr-2 w-2/12 "
+                            alt={`${coin.name}`}
+                            title={`${coin.name}'s Symbol`}
+                          />
+                        </span>
+                        <span
+                          title={`Click to see more of ${coin.name}!`}
+                          className=""
+                          onClick={() => {
+                            router.push(`/coin/${coin.id}`);
+                          }}
+                        >{`${coin.name}`}</span>
+                        <span className="hidden md:inline">{`(${coin.symbol.toUpperCase()})`}</span>
+                      </td>
+                      <td>
+                        {currency === "USD" ? "$" : `€`}
+                        {Intl.NumberFormat().format(
+                          coin.current_price.toFixed(2)
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="flex justify-center">
+                <table className="hidden md:block pb-4">
+                  {/* Table/desktop table*/}
+                  <thead>
+                    <tr>
+                      <td className="">#</td>
+                      <td className=""></td>
+                      <td className="pl-10">Name</td>
+                      <td>Price</td>
+                      <td className="">7d</td>
+                      <td className="">Market Cap</td>
+                    </tr>
+                  </thead>
+                  <tbody className="">
+                    {data.map((coin: any) => (
+                      <tr key={coin.id}>
+                        <td className="">{coin.market_cap_rank}</td>
+                        <td className="">
+                          {user ? (
+                            !watchList?.some((c) => {
+                              return c === coin.name;
+                            }) ? (
+                              <StarBorderIcon
+                                className="text-yellow-300 cursor-pointer"
+                                onClick={() => {
+                                  addToWL(coin.name, user).then((x) => {
+                                    setWatchList(x);
+                                  });
+                                }}
+                              />
+                            ) : (
+                              <StarIcon
+                                className="text-yellow-300 cursor-pointer"
+                                onClick={() => {
+                                  removeFromWL(coin.name, user).then((x) => {
+                                    setWatchList(x);
+                                  });
+                                }}
+                              />
+                            )
+                          ) : (
+                            ""
+                          )}
+                        </td>
+                        <td className=" pl-10">
+                          <img
+                            src={`${coin.image}`}
+                            className="inline mr-2 w-1/12 "
+                            alt={`${coin.name}`}
+                            title={`${coin.name}'s Symbol`}
+                          />
+                          <span
+                            title={`Click to see more of ${coin.name}!`}
+                            className="cursor-pointer text-blue-200 hover:text-blue-500"
+                            onClick={() => {
+                              router.push(`/coin/${coin.id}`);
+                            }}
+                          >
+                            {`${coin.name}`}
+                            {`(${coin.symbol.toUpperCase()})`}
+                          </span>
+                        </td>
+                        <td>
+                          {currency === "USD" ? "$" : `€`}
+                          {Intl.NumberFormat().format(
+                            coin.current_price.toFixed(2)
+                          )}
+                        </td>
+                        <td
+                          className={`${
+                            coin.price_change_percentage_24h > 0
+                              ? "text-green-600"
+                              : "text-red-600"
+                          } `}
+                        >
+                          {coin.price_change_percentage_24h > 0
+                            ? `+${coin.price_change_percentage_24h.toFixed(2)}%`
+                            : `${coin.price_change_percentage_24h.toFixed(2)}%`}
+                        </td>
+
+                        <td className="">
+                          {coin.market_cap.toString().length > 9
+                            ? `${currency === "USD" ? "$" : `€`}${(
+                                coin.market_cap / 1000000000
+                              ).toFixed(1)}B`
+                            : `${currency === "USD" ? "$" : `€`}${(
+                                coin.market_cap / 1000000
+                              ).toFixed(1)}M`}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           ) : (
             <h1 className="flex justify-center text-red-600">
               {search
@@ -249,7 +323,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           )}
 
           {!search && !viewWatchList ? (
-            <div className="flex justify-center space-x-5 py-3">
+            <div className="flex justify-center space-x-5 pt-3 pb-3">
               {pageNum != 1 ? (
                 <div
                   className="inline cursor-pointer"
@@ -257,7 +331,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                     setPageNum(pageNum - 1);
                   }}
                 >
-                  <KeyboardArrowLeftIcon />
+                  <KeyboardArrowLeftIcon className="text-blue-300 hover:text-blue-600" />
                 </div>
               ) : (
                 ""
@@ -270,7 +344,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                     setPageNum(pageNum + 1);
                   }}
                 >
-                  <KeyboardArrowRightIcon />
+                  <KeyboardArrowRightIcon className="text-blue-300 hover:text-blue-600" />
                 </div>
               ) : (
                 ""
