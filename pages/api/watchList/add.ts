@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../db";
+import { connectToDatabase } from "../../../util/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -12,9 +12,8 @@ export default async function handler(
       const {
         coin,
         user,
-        action,
-      }: { coin: string; user: any; action: string } = data;
-      // console.log(coin,user,action)
+      }: { coin: string; user: any} = data;
+      console.log(coin)
       if (!user)
         return res.json({ success: false, message: "Please sign in!" });
 

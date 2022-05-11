@@ -87,6 +87,7 @@ const Coin: React.FC<{}> = ({}) => {
 
   useEffect(() => {
     getCoinInfo(coin);
+
     getWL(user).then((x) => {
       setWatchList(x);
     });
@@ -195,52 +196,55 @@ const Coin: React.FC<{}> = ({}) => {
             </div>
           </div>
         </div>
-      
-      {desc ? (
-        <div
-          className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl"
-          dangerouslySetInnerHTML={{ __html: desc }}
-        />
-      ) : (
-        ""
-      )}
-      {user ? (
-        <div className="lg:text-xl text-yellow-300 hover:text-yellow-600 cursor-pointer">
-          {watchList?.some((c: any) => {
-            return c.toLowerCase() === coin;
-          }) ? (
-            <div
-              className=" secondaryColorBg rounded-2xl my-3 p-4 text-center"
-              onClick={() => {
-                removeFromWL(
-                  coin[0].toUpperCase() + coin.substring(1),
-                  user
-                ).then((x) => {
-                  setWatchList(x);
-                });
-              }}
-            >
-              Remove from Watch List
-            </div>
-          ) : (
-            <div
-              className=" secondaryColorBg rounded-2xl my-3 p-4 text-center"
-              onClick={() => {
-                addToWL(coin[0].toUpperCase() + coin.substring(1), user).then(
-                  (x) => {
+
+        {desc ? (
+          <div
+            className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl"
+            dangerouslySetInnerHTML={{ __html: desc }}
+          />
+        ) : (
+          ""
+        )}
+        {user ? (
+          <div className="lg:text-xl text-yellow-300 hover:text-yellow-600 cursor-pointer">
+            {watchList?.some((c: any) => {
+              console.log(c.toLowerCase(), coin);
+              return c.toLowerCase() === coin;
+            }) ? (
+              <div
+                className=" secondaryColorBg rounded-2xl my-3 p-4 text-center"
+                onClick={() => {
+                  console.log(coin.toLowerCase());
+                  removeFromWL(
+                    coin.toLowerCase(),
+                    user
+                  ).then((x) => {
                     setWatchList(x);
-                  }
-                );
-              }}
-            >
-              Add to Watch List
-            </div>
-          )}
-        </div>
-      ) : (
-        ""
-      )}
-    </div></div>
+                  });
+                }}
+              >
+                Remove from Watch List
+              </div>
+            ) : (
+              <div
+                className=" secondaryColorBg rounded-2xl my-3 p-4 text-center"
+                onClick={() => {
+                  addToWL( coin.toLowerCase(), user).then(
+                    (x) => {
+                      setWatchList(x);
+                    }
+                  );
+                }}
+              >
+                Add to Watch List
+              </div>
+            )}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
   );
 };
 export default Coin;

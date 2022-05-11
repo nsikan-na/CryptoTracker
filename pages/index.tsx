@@ -167,12 +167,12 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                       <td className="">
                         {user ? (
                           !watchList?.some((c) => {
-                            return c === coin.name;
+                            return c === coin.id;
                           }) ? (
                             <StarBorderIcon
                               className="text-yellow-300 cursor-pointer"
                               onClick={() => {
-                                addToWL(coin.name, user).then((x) => {
+                                addToWL(coin.id, user).then((x) => {
                                   setWatchList(x);
                                 });
                               }}
@@ -181,7 +181,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                             <StarIcon
                               className="text-yellow-300 cursor-pointer"
                               onClick={() => {
-                                removeFromWL(coin.name, user).then((x) => {
+                                removeFromWL(coin.id, user).then((x) => {
                                   setWatchList(x);
                                 });
                               }}
@@ -239,12 +239,12 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         <td className="">
                           {user ? (
                             !watchList?.some((c) => {
-                              return c === coin.name;
+                              return c === coin.id;
                             }) ? (
                               <StarBorderIcon
                                 className="text-yellow-300 cursor-pointer"
                                 onClick={() => {
-                                  addToWL(coin.name, user).then((x) => {
+                                  addToWL(coin.id, user).then((x) => {
                                     setWatchList(x);
                                   });
                                 }}
@@ -253,7 +253,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                               <StarIcon
                                 className="text-yellow-300 cursor-pointer"
                                 onClick={() => {
-                                  removeFromWL(coin.name, user).then((x) => {
+                                  removeFromWL(coin.id, user).then((x) => {
                                     setWatchList(x);
                                   });
                                 }}

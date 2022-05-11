@@ -1,4 +1,4 @@
-import { connectToDatabase } from "../db";
+import { connectToDatabase } from "../../../util/db";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
