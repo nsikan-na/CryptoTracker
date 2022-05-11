@@ -40,7 +40,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     if (viewWatchList) {
       setData(
         coinData.filter((coin: any) => {
-          return watchList.includes(coin?.name);
+          return watchList.includes(coin?.id);
         })
       );
     }

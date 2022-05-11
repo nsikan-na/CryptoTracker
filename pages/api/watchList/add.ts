@@ -13,7 +13,6 @@ export default async function handler(
         coin,
         user,
       }: { coin: string; user: any} = data;
-      console.log(coin)
       if (!user)
         return res.json({ success: false, message: "Please sign in!" });
 

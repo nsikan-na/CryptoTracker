@@ -208,13 +208,11 @@ const Coin: React.FC<{}> = ({}) => {
         {user ? (
           <div className="lg:text-xl text-yellow-300 hover:text-yellow-600 cursor-pointer">
             {watchList?.some((c: any) => {
-              console.log(c.toLowerCase(), coin);
               return c.toLowerCase() === coin;
             }) ? (
               <div
                 className=" secondaryColorBg rounded-2xl my-3 p-4 text-center"
                 onClick={() => {
-                  console.log(coin.toLowerCase());
                   removeFromWL(
                     coin.toLowerCase(),
                     user
