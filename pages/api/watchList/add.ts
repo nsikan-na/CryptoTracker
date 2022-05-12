@@ -9,10 +9,7 @@ export default async function handler(
     try {
       const { db } = await connectToDatabase();
       const data = req.body;
-      const {
-        coin,
-        user,
-      }: { coin: string; user: any} = data;
+      const { coin, user }: { coin: string; user: any } = data;
       if (!user)
         return res.json({ success: false, message: "Please sign in!" });
 

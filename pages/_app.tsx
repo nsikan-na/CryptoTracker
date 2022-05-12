@@ -7,7 +7,7 @@ import toggleTheme from "../util/toggleTheme";
 export const Context = createContext({});
 function MyApp({ Component, pageProps }: AppProps) {
   const [currency, setCurrency] = useState("USD");
-  const [theme, setTheme] = useState(true);
+  const [theme, setTheme] = useState(false);
   useEffect(() => {
     toggleTheme(theme);
   }, [theme]);

@@ -93,7 +93,7 @@ const Coin: React.FC<{}> = ({}) => {
     getWL(user).then((x) => {
       setWatchList(x);
     });
-  }, [coin, user,currency]);
+  }, [coin, user, currency]);
 
   return (
     <>
