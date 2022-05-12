@@ -7,8 +7,7 @@ This app is used to track information on the top coins by market capitalization.
 ## Project Focus
 
 - Responsive interface
-- Get data from apis
-- Gets most data from [Coingecko Api](https://www.coingecko.com/en/api/documentation)
+- Fetches most data from [Coingecko Api](https://www.coingecko.com/en/api/documentation)
 - Uses [Quickchart.io](https://quickchart.io/) for charting data
 - Uses [Auth0](https://auth0.com/docs) for authentification
 - Manage state using React's context api
