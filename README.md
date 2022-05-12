@@ -1,6 +1,8 @@
-# Crypto Coins
+# CryptoTracker
 
 [Visit Live Site](https://top-crypto-coins.vercel.app/)
+
+This app is used to track information on the top coins by market capitalization.
 
 ## Project Focus
 
