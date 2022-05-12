@@ -8,6 +8,8 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CircularProgress from "@mui/material/CircularProgress";
+import NightlightIcon from "@mui/icons-material/Nightlight";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   coinDataUsd,
@@ -16,7 +18,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const router = useRouter();
   const inputRef: any = useRef();
   const { user, error, isLoading } = useUser();
-  const { currency, setCurrency }: any = useContext(Context);
+  const { currency, setCurrency, theme, setTheme }: any = useContext(Context);
   const [coinData, setCoinData] = useState(coinDataUsd);
   const [pageNum, setPageNum] = useState(1);
   const [data, setData] = useState([]);
@@ -75,210 +77,142 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   }, [pageNum, coinData]);
 
   return (
-    <div className="m-2 md:m-5 md:mx-7  lg:mx-32 ">
-      {!user ? (
-        <div className="flex space-x-3 justify-end mr-2 ">
-          <Link href="/api/auth/login">
-            <a className="secondaryColorBg rounded-2xl py-2 px-4">Login</a>
-          </Link>
-        </div>
-      ) : (
-        <div className="flex space-x-3  justify-end mr-2">
-          <div className="py-2 px-1">{user.nickname}</div>
-          <Link href="/api/auth/logout">
-            <a className="secondaryColorBg rounded-2xl py-2 px-4">Logout</a>
-          </Link>
-        </div>
-      )}
-      <div className="secondaryColorBg rounded-2xl py-4 mx-2 my-4 xl:w-7/12 xl:mx-auto 2xl:w-6/12">
-        <div className="flex justify-evenly">
-          <input
-            ref={inputRef}
-            className="rounded-md px-2 py-1 mx-1"
-            type="text"
-            placeholder="Search"
-            onChange={(e) => {
-              setData([]);
-              if (e.target.value.length === 0) {
-                setSearch(false);
-                return coinData.forEach((coin: any, i: any) => {
-                  if (i >= pageNum * 10) return;
-                  if (i <= pageNum * 10 - 11) return;
-                  setData((prev: any): any => [...prev, coin]);
+    <>
+      <nav className="secondaryColorBg">
+        <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
+          <div className="flex justify-evenly items-center">
+            <h1 className="text-4xl"> CryptoTracker</h1>
+            <input
+              ref={inputRef}
+              className="rounded-md px-2 py-1 mx-1"
+              type="text"
+              placeholder="Search"
+              onChange={(e) => {
+                setData([]);
+                if (e.target.value.length === 0) {
+                  setSearch(false);
+                  return coinData.forEach((coin: any, i: any) => {
+                    if (i >= pageNum * 10) return;
+                    if (i <= pageNum * 10 - 11) return;
+                    setData((prev: any): any => [...prev, coin]);
+                  });
+                } else {
+                  setSearch(true);
+                }
+
+                coinData.filter((coin: any) => {
+                  if (
+                    !coin.name.toLowerCase().includes(e.target.value) &&
+                    !coin.symbol.toLowerCase().includes(e.target.value)
+                  )
+                    return;
+                  return setData((prev: any): any => [...prev, coin]);
                 });
-              } else {
-                setSearch(true);
-              }
-
-              coinData.filter((coin: any) => {
-                if (
-                  !coin.name.toLowerCase().includes(e.target.value) &&
-                  !coin.symbol.toLowerCase().includes(e.target.value)
-                )
-                  return;
-                return setData((prev: any): any => [...prev, coin]);
-              });
-            }}
-          />
-          <select
-            className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
-            onChange={(e) => {
-              setCurrency(e.target.value);
-            }}
-            value={currency}
-          >
-            <option>USD</option>
-            <option>EUR</option>
-          </select>
+              }}
+            />
+            <select
+              className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
+              onChange={(e) => {
+                setCurrency(e.target.value);
+              }}
+              value={currency}
+            >
+              <option>USD</option>
+              <option>EUR</option>
+            </select>
+            <div className="flex justify-center space-x-5 items-center my-2">
+              <div>Toggle Watch List</div>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    setViewWatchList(!viewWatchList);
+                  }}
+                  className="cursor-pointer"
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
+            <div>
+              {/*Light/dark Mode */}
+              {theme ? (
+                <NightlightIcon
+                  className="text-black cursor-pointer"
+                  onClick={() => {
+                    setTheme(false);
+                  }}
+                />
+              ) : (
+                <WbSunnyIcon
+                  className="text-white cursor-pointer"
+                  onClick={() => {
+                    setTheme(true);
+                  }}
+                />
+              )}
+            </div>
+            {!user ? (
+              <div className="flex space-x-3 justify-end mr-2 ">
+                <Link href="/api/auth/login">
+                  <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                    Login
+                  </a>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex space-x-3  justify-end mr-2">
+                {/* <div className="py-2 px-1">{user.nickname}</div> */}
+                <Link href="/api/auth/logout">
+                  <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                    Logout
+                  </a>
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
-        <div
-          className="text-center mt-2 cursor-pointer text-blue-300 hover:text-blue-500"
-          onClick={() => {
-            setViewWatchList(!viewWatchList);
-          }}
-        >
-          View Watch List
+      </nav>
+      <div className="m-2 md:m-5 md:mx-7  lg:mx-32 ">
+        <div className={`${spinner ? "block" : "hidden"}`}>
+          <CircularProgress className=" absolute inset-1/2 " />
         </div>
-      </div>
-      <div className={`${spinner ? "block" : "hidden"}`}>
-        <CircularProgress className=" absolute inset-1/2 " />
-      </div>
 
-      <div className={`${!spinner ? "block" : "hidden"}`}>
-        <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4 xl:w-7/12 xl:mx-auto 2xl:w-6/12 ">
-          <h1 className="text-center font-semibold text-2xl my-4">
-            Top Coins by Market Capitalization
-          </h1>
-          {data.length !== 0 ? (
-            <div className="">
-              <table className="w-10/12 mx-auto md:hidden">
-                {/* Mobile table*/}
+        <div className={`${!spinner ? "block" : "hidden"}`}>
+          <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4 xl:w-7/12 xl:mx-auto 2xl:w-6/12 ">
+            <h1 className="text-center font-semibold text-2xl my-4">
+              Top Coins by Market Capitalization
+            </h1>
+            {data.length !== 0 ? (
+              <div className="">
+                <table className="w-10/12 mx-auto md:hidden">
+                  {/* Mobile table*/}
 
-                <thead>
-                  <tr>
-                    <td className=""></td>
-                    <td>Name</td>
-                    <td>Price</td>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  {data.map((coin: any) => (
-                    <tr key={coin.id}>
-                      <td className="">
-                        {user ? (
-                          !watchList?.some((c) => {
-                            return c === coin.id;
-                          }) ? (
-                            <StarBorderIcon
-                              className="text-yellow-300 cursor-pointer"
-                              onClick={() => {
-                                addToWL(coin.id, user).then((x) => {
-                                  setWatchList(x);
-                                });
-                              }}
-                            />
-                          ) : (
-                            <StarIcon
-                              className="text-yellow-300 cursor-pointer"
-                              onClick={() => {
-                                removeFromWL(coin.id, user).then((x) => {
-                                  setWatchList(x);
-                                });
-                              }}
-                            />
-                          )
-                        ) : (
-                          ""
-                        )}
-                      </td>
-                      <td className="">
-                        <span>
-                          <img
-                            src={`${coin.image}`}
-                            className="inline mr-2 w-2/12 "
-                            alt={`${coin.name}`}
-                            title={`${coin.name}'s Symbol`}
-                          />
-                        </span>
-                        <span
-                          title={`Click to see more of ${coin.name}!`}
-                          className=""
-                          onClick={() => {
-                            router.push(`/coin/${coin.id}`);
-                          }}
-                        >{`${coin.name}`}</span>
-                        <span className="hidden md:inline">{`(${coin.symbol.toUpperCase()})`}</span>
-                      </td>
-                      <td>
-                        {currency === "USD" ? "$" : `€`}
-                        {Intl.NumberFormat().format(
-                          coin.current_price.toFixed(2)
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div className="flex justify-center">
-                <table className="hidden md:block pb-4">
-                  {/* Table/desktop table*/}
                   <thead>
                     <tr>
-                      <td className="">#</td>
-                      <td className=""></td>
-                      <td className="pl-10">Name</td>
+                      <td>Name</td>
                       <td>Price</td>
-                      <td className="">Market Cap</td>
                     </tr>
                   </thead>
                   <tbody className="">
                     {data.map((coin: any) => (
                       <tr key={coin.id}>
-                        <td className="">{coin.market_cap_rank}</td>
                         <td className="">
-                          {user ? (
-                            !watchList?.some((c) => {
-                              return c === coin.id;
-                            }) ? (
-                              <StarBorderIcon
-                                className="text-yellow-300 cursor-pointer"
-                                onClick={() => {
-                                  addToWL(coin.id, user).then((x) => {
-                                    setWatchList(x);
-                                  });
-                                }}
-                              />
-                            ) : (
-                              <StarIcon
-                                className="text-yellow-300 cursor-pointer"
-                                onClick={() => {
-                                  removeFromWL(coin.id, user).then((x) => {
-                                    setWatchList(x);
-                                  });
-                                }}
-                              />
-                            )
-                          ) : (
-                            ""
-                          )}
-                        </td>
-                        <td className=" pl-10">
-                          <img
-                            src={`${coin.image}`}
-                            className="inline mr-2 w-1/12 "
-                            alt={`${coin.name}`}
-                            title={`${coin.name}'s Symbol`}
-                          />
+                          <span>
+                            <img
+                              src={`${coin.image}`}
+                              className="inline mr-2 w-2/12 "
+                              alt={`${coin.name}`}
+                              title={`${coin.name}'s Symbol`}
+                            />
+                          </span>
                           <span
                             title={`Click to see more of ${coin.name}!`}
-                            className="cursor-pointer text-blue-200 hover:text-blue-500"
+                            className=""
                             onClick={() => {
                               router.push(`/coin/${coin.id}`);
                             }}
-                          >
-                            {`${coin.name}`}
-                            {`(${coin.symbol.toUpperCase()})`}
-                          </span>
+                          >{`${coin.name}`}</span>
+                          <span className="hidden md:inline">{`(${coin.symbol.toUpperCase()})`}</span>
                         </td>
                         <td>
                           {currency === "USD" ? "$" : `€`}
@@ -286,65 +220,152 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                             coin.current_price.toFixed(2)
                           )}
                         </td>
-                        
-
-                        <td className="">
-                          {coin.market_cap.toString().length > 9
-                            ? `${currency === "USD" ? "$" : `€`}${(
-                                coin.market_cap / 1000000000
-                              ).toFixed(1)}B`
-                            : `${currency === "USD" ? "$" : `€`}${(
-                                coin.market_cap / 1000000
-                              ).toFixed(1)}M`}
-                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
-            </div>
-          ) : (
-            <h1 className="flex justify-center text-red-600">
-              {search
-                ? `No supported crypto coin's name or symbol match this search!`
-                : `You have no coins in your watch list!`}
-            </h1>
-          )}
+                <div className="flex justify-center">
+                  <table className="hidden md:block pb-4">
+                    {/* Table/desktop table*/}
+                    <thead>
+                      <tr>
+                        <td className="">#</td>
+                        <td className=""></td>
+                        <td className="pl-10">Name</td>
+                        <td>Price</td>
+                        <td className="">1d</td>
+                        <td className="">Market Cap</td>
+                      </tr>
+                    </thead>
+                    <tbody className="">
+                      {data.map((coin: any) => (
+                        <tr key={coin.id}>
+                          <td className="">{coin.market_cap_rank}</td>
+                          <td className="">
+                            {user ? (
+                              !watchList?.some((c) => {
+                                return c === coin.id;
+                              }) ? (
+                                <StarBorderIcon
+                                  className="text-yellow-300 cursor-pointer"
+                                  onClick={() => {
+                                    addToWL(coin.id, user).then((x) => {
+                                      setWatchList(x);
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <StarIcon
+                                  className="text-yellow-300 cursor-pointer"
+                                  onClick={() => {
+                                    removeFromWL(coin.id, user).then((x) => {
+                                      setWatchList(x);
+                                    });
+                                  }}
+                                />
+                              )
+                            ) : (
+                              ""
+                            )}
+                          </td>
+                          <td className=" pl-10">
+                            <img
+                              src={`${coin.image}`}
+                              className="inline mr-2 w-1/12 "
+                              alt={`${coin.name}`}
+                              title={`${coin.name}'s Symbol`}
+                            />
+                            <span
+                              title={`Click to see more of ${coin.name}!`}
+                              className="cursor-pointer text-blue-200 hover:text-blue-500"
+                              onClick={() => {
+                                router.push(`/coin/${coin.id}`);
+                              }}
+                            >
+                              {`${coin.name}`}
+                              {`(${coin.symbol.toUpperCase()})`}
+                            </span>
+                          </td>
+                          <td>
+                            {currency === "USD" ? "$" : `€`}
+                            {Intl.NumberFormat().format(
+                              coin.current_price.toFixed(2)
+                            )}
+                          </td>
+                          <td
+                            className={`${
+                              coin.price_change_percentage_24h > 0
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                          >
+                            {coin.price_change_percentage_24h > 0
+                              ? `+${coin.price_change_percentage_24h.toFixed(
+                                  2
+                                )}%`
+                              : `${coin.price_change_percentage_24h.toFixed(
+                                  2
+                                )}%`}
+                          </td>
 
-          {!search && !viewWatchList ? (
-            <div className="flex justify-center space-x-5 pt-3 pb-3">
-              {pageNum != 1 ? (
-                <div
-                  className="inline cursor-pointer"
-                  onClick={() => {
-                    setPageNum(pageNum - 1);
-                  }}
-                >
-                  <KeyboardArrowLeftIcon className="text-blue-300 hover:text-blue-600" />
+                          <td className="">
+                            {coin.market_cap.toString().length > 9
+                              ? `${currency === "USD" ? "$" : `€`}${(
+                                  coin.market_cap / 1000000000
+                                ).toFixed(1)}B`
+                              : `${currency === "USD" ? "$" : `€`}${(
+                                  coin.market_cap / 1000000
+                                ).toFixed(1)}M`}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              ) : (
-                ""
-              )}
-              <div className="inline ">{pageNum}</div>
-              {pageNum != 10 ? (
-                <div
-                  className="inline cursor-pointer"
-                  onClick={() => {
-                    setPageNum(pageNum + 1);
-                  }}
-                >
-                  <KeyboardArrowRightIcon className="text-blue-300 hover:text-blue-600" />
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
-          ) : (
-            ""
-          )}
+              </div>
+            ) : (
+              <h1 className="flex justify-center text-red-600">
+                {search
+                  ? `No supported crypto coin's name or symbol match this search!`
+                  : `You have no coins in your watch list!`}
+              </h1>
+            )}
+
+            {!search && !viewWatchList ? (
+              <div className="flex justify-center space-x-5 pt-3 pb-3">
+                {pageNum != 1 ? (
+                  <div
+                    className="inline cursor-pointer"
+                    onClick={() => {
+                      setPageNum(pageNum - 1);
+                    }}
+                  >
+                    <KeyboardArrowLeftIcon className="text-blue-300 hover:text-blue-600" />
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="inline ">{pageNum}</div>
+                {pageNum != 10 ? (
+                  <div
+                    className="inline cursor-pointer"
+                    onClick={() => {
+                      setPageNum(pageNum + 1);
+                    }}
+                  >
+                    <KeyboardArrowRightIcon className="text-blue-300 hover:text-blue-600" />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 export default Index;
