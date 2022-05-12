@@ -261,7 +261,7 @@ const Coin: React.FC<{}> = ({}) => {
 
           {desc ? (
             <div
-              className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl"
+              className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl coinDesc w-9/12 md:w-full mx-auto xl:w-7/12 2xl:w-full"
               dangerouslySetInnerHTML={{ __html: desc }}
             />
           ) : (
@@ -279,7 +279,7 @@ const Coin: React.FC<{}> = ({}) => {
                 return c.toLowerCase() === coin;
               }) ? (
                 <div
-                  className=" secondaryColorBg rounded-2xl my-3 p-4 text-center"
+                  className=" secondaryColorBg w-5/12 flex justify-center items-center mx-auto rounded-2xl my-3 p-4 text-center"
                   onClick={() => {
                     removeFromWL(coin.toLowerCase(), user).then((x) => {
                       setWatchList(x);
@@ -290,7 +290,7 @@ const Coin: React.FC<{}> = ({}) => {
                 </div>
               ) : (
                 <div
-                  className={` secondaryColorBg rounded-2xl my-3 p-4 text-center `}
+                  className={` secondaryColorBg w-5/12 flex justify-center items-center mx-auto rounded-2xl my-3 p-4 text-center `}
                   onClick={() => {
                     addToWL(coin.toLowerCase(), user).then((x) => {
                       setWatchList(x);

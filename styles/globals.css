@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: "Lucida Console", "Courier New", monospace;
+}
 td {
   border-bottom: 0.25px solid var(--mainColorText);
 }
@@ -85,4 +88,8 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.coinDesc{
+    line-height:225%;
 }
