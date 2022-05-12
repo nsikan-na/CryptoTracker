@@ -183,7 +183,7 @@ const Coin: React.FC<{}> = ({}) => {
                   target="_blank"
                   rel="noreferrer"
                   href={link}
-                  className="flex justify-center text-blue-300 hover:text-blue-500 cursor-pointer"
+                  className="flex justify-center link cursor-pointer"
                 >{`${link}`}</a>
               </div>
 

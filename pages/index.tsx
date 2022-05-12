@@ -207,7 +207,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                           </span>
                           <span
                             title={`Click to see more of ${coin.name}!`}
-                            className=""
+                            className="link"
                             onClick={() => {
                               router.push(`/coin/${coin.id}`);
                             }}
@@ -277,7 +277,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                             />
                             <span
                               title={`Click to see more of ${coin.name}!`}
-                              className="cursor-pointer text-blue-200 hover:text-blue-500"
+                              className="cursor-pointer link"
                               onClick={() => {
                                 router.push(`/coin/${coin.id}`);
                               }}
