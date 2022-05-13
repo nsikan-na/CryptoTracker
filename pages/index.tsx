@@ -75,8 +75,8 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     <>
       <nav className="secondaryColorBg">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
-          <div className="md:flex justify-evenly items-center">
-            <div className="flex justify-center items-center space-x-3">
+          <div className="md:flex justify-between items-center">
+            <div className="flex justify-start items-center space-x-3">
               <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
@@ -173,19 +173,23 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 }}
               />
             </div>
-            <div className="flex justify-center space-x-5 items-center my-2">
-              <div>Toggle Watch List</div>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  onChange={() => {
-                    setViewWatchList(!viewWatchList);
-                  }}
-                  className="cursor-pointer"
-                />
-                <span className="slider round"></span>
-              </label>
-            </div>
+            {user ? (
+              <div className="flex justify-center space-x-5 items-center my-2">
+                <div>Toggle Watch List</div>
+                <label className="switch">
+                  <input
+                    type="checkbox"
+                    onChange={() => {
+                      setViewWatchList(!viewWatchList);
+                    }}
+                    className="cursor-pointer"
+                  />
+                  <span className="slider round"></span>
+                </label>
+              </div>
+            ) : (
+              ""
+            )}
             {data.length !== 0 ? (
               <div className="">
                 <table className="w-10/12 mx-auto md:hidden">

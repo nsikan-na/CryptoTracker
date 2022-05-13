@@ -99,8 +99,8 @@ const Coin: React.FC<{}> = ({}) => {
     <>
       <nav className="secondaryColorBg ">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2 xl:w-7/12 xl:mx-auto 2xl:w-6/12">
-          <div className="md:flex justify-evenly items-center">
-            <div className="flex justify-center items-center space-x-3">
+          <div className="md:flex justify-between items-center">
+            <div className="flex justify-start items-center space-x-3">
               <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
