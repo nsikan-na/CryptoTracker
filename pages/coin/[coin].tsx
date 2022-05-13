@@ -97,8 +97,8 @@ const Coin: React.FC<{}> = ({}) => {
 
   return (
     <>
-      <nav className="secondaryColorBg">
-        <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
+      <nav className="secondaryColorBg ">
+        <div className="secondaryColorBg rounded-2xl py-4 mx-2 xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-evenly items-center">
             <div className="flex justify-center items-center">
               <h1 className="text-4xl"> CryptoTracker</h1>

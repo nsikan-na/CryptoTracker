@@ -1,6 +1,7 @@
 export default function toggleTheme(mode: boolean): void {
   //changes the theme colors
   if (process.browser) {
+    //light,dark
     document
       .querySelector<HTMLInputElement>(":root")
       ?.style.setProperty("--secondaryColorBg", mode ? "white" : "#191b1f");
@@ -12,7 +13,10 @@ export default function toggleTheme(mode: boolean): void {
       ?.style.setProperty("--mainColorText", mode ? "black" : "white");
     document
       .querySelector<HTMLInputElement>(":root")
-      ?.style.setProperty("--linkColor", mode ? "#329BE7" : "rgb(147, 197, 253)");
+      ?.style.setProperty(
+        "--linkColor",
+        mode ? "#329BE7" : "rgb(147, 197, 253)"
+      );
     document
       .querySelector<HTMLInputElement>(":root")
       ?.style.setProperty(
