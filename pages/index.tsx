@@ -76,8 +76,9 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       <nav className="secondaryColorBg">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-evenly items-center">
-            <div className="flex justify-center items-center">
-              <h1 className="text-4xl"> CryptoTracker</h1>
+            <div className="flex justify-center items-center space-x-3">
+              <img src="/images/logo.png" alt="Crypto Logo" className='w-1/12'/>
+              <h1 className="text-3xl"> CryptoTracker</h1>
             </div>
             <div className="flex justify-evenly items-center space-x-5">
               <select
@@ -87,8 +88,8 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 }}
                 value={currency}
               >
-                <option className='pt-2'>USD</option>
-                <option className='pt-2'>EUR</option>
+                <option className="pt-2">USD</option>
+                <option className="pt-2">EUR</option>
               </select>
               <div>
                 {/*Light/dark Mode */}
