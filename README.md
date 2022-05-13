@@ -1,6 +1,6 @@
 # CryptoTracker
 
-## [Visit Live Site](https://top-crypto-coins.vercel.app/)
+## [Visit Live Site](https://cryptocoins-tracker.vercel.app/)
 
 This app is used to track information on the top coins by market capitalization.
 
