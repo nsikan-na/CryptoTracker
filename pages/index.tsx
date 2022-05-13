@@ -35,17 +35,22 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     <div
       key={item.id}
       className="flex flex-col justify-center items-center my-2 "
-      onClick={() => {
-        router.push(`/coin/${item.id}`);
-      }}
     >
       <img
         className="w-3/12 my-2 cursor-pointer 2xl:w-2/12"
         src={item?.image}
         onDragStart={handleDragStart}
         role="presentation"
+        onClick={() => {
+          router.push(`/coin/${item.id}`);
+        }}
       />
-      <div className="my-1 cursor-pointer space-x-2">
+      <div
+        className="my-1 cursor-pointer space-x-2 "
+        onClick={() => {
+          router.push(`/coin/${item.id}`);
+        }}
+      >
         <span className="font-semibold">{item.symbol.toUpperCase()}</span>
         <span
           className={`${
@@ -59,7 +64,12 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             : `${item.price_change_percentage_24h.toFixed(2)}%`}
         </span>
       </div>
-      <div className="my-1 cursor-pointer">
+      <div
+        className="my-1 cursor-pointer"
+        onClick={() => {
+          router.push(`/coin/${item.id}`);
+        }}
+      >
         {currency === "USD" ? "$" : `€`}
         {Intl.NumberFormat().format(item.current_price.toFixed(2))}
       </div>
