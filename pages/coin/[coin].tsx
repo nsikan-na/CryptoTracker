@@ -104,9 +104,9 @@ const Coin: React.FC<{}> = ({}) => {
               <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
-                className="w-1/12"
+                className="md:w-1/12 w-2/12"
               />
-              <h1 className="text-4xl"> CryptoTracker</h1>
+              <h1 className="text-3xl"> CryptoTracker</h1>
             </div>
             <div className="flex justify-evenly space-x-5 items-center">
               <select
