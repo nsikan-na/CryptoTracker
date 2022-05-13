@@ -10,7 +10,7 @@ const Alert: React.FC<{}> = () => {
   return (
     <>
       {alertText != "" ? (
-        <div className=" py-2 w-full  fixed top-10 flex justify-center">
+        <div className=" py-2 w-full  fixed top-10 flex justify-center font-semibold">
           <div className="w-10/12 p-2 md:w-5/12 lg:w-4/12 2xl:w-2/12 rounded-md text-center text-lg bg-green-600">
             {alertText}
           </div>

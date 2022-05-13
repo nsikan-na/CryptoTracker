@@ -6,7 +6,7 @@ import Link from "next/link";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CircularProgress from "@mui/material/CircularProgress";
-import NightlightIcon from "@mui/icons-material/Nightlight";
+import NightsStayIcon from '@mui/icons-material/NightsStay';
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 
@@ -31,13 +31,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
 
-  const items = [
-    coinData[0],
-    coinData[1],
-    coinData[2],
-    coinData[3],
-    coinData[4],
-  ].map((item: any) => [
+  const items = coinData.map((item: any) => [
     <div
       key={item.id}
       className="flex flex-col justify-center items-center my-2 "
@@ -52,13 +46,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         role="presentation"
       />
       <div className="my-1 cursor-pointer space-x-2">
-        <span>{item.symbol.toUpperCase()}</span>
+        <span className="font-semibold">{item.symbol.toUpperCase()}</span>
         <span
           className={`${
             item.price_change_percentage_24h > 0
               ? "text-green-600"
               : "text-red-600"
-          }`}
+          } font-semibold`}
         >
           {item.price_change_percentage_24h > 0
             ? `+${item.price_change_percentage_24h.toFixed(2)}%`
@@ -128,11 +122,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
             <div className="hidden md:flex justify-evenly items-center space-x-3">
-              {/* <img
-                src="/images/logo.png"
-                alt="Crypto Logo"
-                className="md:w-1/12 w-2/12"
-              /> */}
+
               <div
                 className={`text-2xl font-bold ${
                   theme ? "text-black" : " text-yellow-500"
@@ -143,20 +133,16 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               <div className="invisible md:w-1/12 w-2/12"></div>
             </div>
             <div className="flex justify-evenly items-center space-x-5">
-              {/* <img
-                src="/images/logo.png"
-                alt="Crypto Logo"
-                className="md:w-1/12 w-2/12 md:hidden"
-              /> */}
+
               <div
-                className={`text-2xl font-bold md:hidden ${
+                className={`text-3xl font-bold md:hidden ${
                   theme ? "text-black" : "text-yellow-500"
                 }`}
               >
                 CT
               </div>
               <select
-                className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
+                className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer font-semibold"
                 onChange={(e) => {
                   setCurrency(e.target.value);
                 }}
@@ -168,7 +154,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               <div>
                 {/*Light/dark Mode */}
                 {theme ? (
-                  <NightlightIcon
+                  <NightsStayIcon
                     className="text-black cursor-pointer"
                     onClick={() => {
                       setTheme(false);
@@ -184,7 +170,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 )}
               </div>
               {!user ? (
-                <div className="flex space-x-3 justify-end mr-2 ">
+                <div className="flex space-x-3 justify-end mr-2 font-semibold">
                   <Link href="/api/auth/login">
                     <a className="secondaryColorBg rounded-2xl py-2 px-4">
                       Login
@@ -192,7 +178,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                   </Link>
                 </div>
               ) : (
-                <div className="flex space-x-3  justify-end mr-2">
+                <div className="flex space-x-3  justify-end mr-2 font-semibold">
                   <Link href="/api/auth/logout">
                     <a className="secondaryColorBg rounded-2xl py-2 px-4">
                       Logout
@@ -207,10 +193,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       <div className=" secondaryColorBg p-3 mx-2 my-4 rounded-2xl">
         <div className="text-center text-3xl font-bold">CryptoTracker</div>
         <div className="flex justify-center items-center my-1 text-lg">
-          <p className="hidden md:flex text-center">
+          <p className="hidden md:flex text-center ">
             Get all the Info regarding your favorite Crypto Currency
           </p>
-          <p className="md:hidden text-center">Crypto Currency Info</p>
+          <p className="md:hidden text-center ">Crypto Currency Info</p>
         </div>
         <AliceCarousel
           items={items}
@@ -230,13 +216,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 
         <div className={`${!spinner ? "block" : "hidden"}`}>
           <div className="secondaryColorBg rounded-2xl p-3 mx-2 my-4 xl:w-7/12 xl:mx-auto 2xl:w-6/12 ">
-            <h1 className="text-center font-semibold text-2xl my-4">
+            <h1 className="text-center font-bold text-2xl my-4">
               Top Coins by Market Capitalization
             </h1>
             <div className="flex justify-center">
               <input
                 ref={inputRef}
-                className="rounded-md px-2 py-1 mx-1 md:w-5/12 text-center "
+                className="rounded-md px-2 py-1 mx-1 md:w-5/12 text-center font-semibold "
                 type="text"
                 placeholder="Search"
                 onChange={(e) => {
@@ -265,26 +251,36 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 }}
               />
             </div>
-            {user ? (
-              <div className="flex justify-center space-x-5 items-center my-2">
-                <div>Toggle Watch List</div>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    onChange={() => {
-                      setViewWatchList(!viewWatchList);
-                    }}
-                    className="cursor-pointer"
-                  />
-                  <span className="slider round"></span>
-                </label>
-              </div>
-            ) : (
-              ""
-            )}
+            <div className="flex justify-center space-x-5 items-center my-2 font-semibold">
+              {user ? (
+                <>
+                  <div>Toggle Watch List</div>
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      onChange={() => {
+                        setViewWatchList(!viewWatchList);
+                      }}
+                      className="cursor-pointer"
+                    />
+                    <span className="slider round"></span>
+                  </label>
+                </>
+              ) : (
+                <div className="text-center">
+                  <Link href="/api/auth/login">
+                    <a className="secondaryColorBg rounded-2xl py-2 inline">
+                      {`Login `}
+                    </a>
+                  </Link>
+                  {`to use the watch list feature!`}
+                </div>
+              )}
+            </div>
+            <div className="text-center my-2">{`(Click coin name for more information on the coin!)`}</div>
             {data.length !== 0 ? (
               <div className="">
-                <table className="w-10/12 mx-auto md:hidden">
+                <table className="w-10/12 mx-auto md:hidden font-semibold">
                   {/* Mobile table*/}
 
                   <thead>
@@ -325,7 +321,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                   </tbody>
                 </table>
                 <div className="flex justify-center">
-                  <table className="hidden md:block pb-4">
+                  <table className="hidden md:block pb-4 font-semibold">
                     {/* Table/desktop table*/}
                     <thead>
                       <tr>
@@ -352,7 +348,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                                     addToWL(coin.id, user).then((x) => {
                                       setWatchList(x);
                                       setAlertText(
-                                        `${coin?.id?.toUpperCase()} added to watch list`
+                                        `${coin?.id?.toUpperCase()} added to watch list!`
                                       );
                                     });
                                   }}
@@ -364,7 +360,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                                     removeFromWL(coin.id, user).then((x) => {
                                       setWatchList(x);
                                       setAlertText(
-                                        `${coin?.id?.toUpperCase()} removed from watch list`
+                                        `${coin?.id?.toUpperCase()} removed from watch list!`
                                       );
                                     });
                                   }}
