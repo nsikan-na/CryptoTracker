@@ -22,14 +22,15 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const router = useRouter();
   const inputRef: any = useRef();
   const { user } = useUser();
-  const { currency, setCurrency, theme, setTheme }: any = useContext(Context);
+  const { currency, setCurrency, theme, setTheme, setAlertText }: any =
+    useContext(Context);
   const [coinData, setCoinData] = useState(coinDataUsd);
   const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
-  // console.log(data[0]?.image);
+
   const items = [
     coinData[0],
     coinData[1],
@@ -77,6 +78,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   };
   useEffect(() => {
     if (!user) return;
+
     getWL(user).then((x) => {
       setWatchList(x);
     });
@@ -181,9 +183,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 </div>
               ) : (
                 <div className="flex space-x-3  justify-end mr-2">
-                  {/* <div className="py-2 px-1">{user.nickname}</div> */}
                   <Link href="/api/auth/logout">
-                    <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                    <a
+                      className="secondaryColorBg rounded-2xl py-2 px-4"
+                    >
                       Logout
                     </a>
                   </Link>
@@ -195,7 +198,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       </nav>
       <div className=" secondaryColorBg p-3 mx-2 my-4 rounded-2xl">
         <div className="text-center text-3xl font-bold">CryptoTracker</div>
-        <div className="flex justify-center items-center my-1">
+        <div className="flex justify-center items-center my-1 text-lg">
           <p className="text-center">
             Get all the Info regarding your favorite Crypto Currency
           </p>
@@ -339,6 +342,9 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                                   onClick={() => {
                                     addToWL(coin.id, user).then((x) => {
                                       setWatchList(x);
+                                      setAlertText(
+                                        `${coin?.id?.toUpperCase()} added to watch list`
+                                      );
                                     });
                                   }}
                                 />
@@ -348,6 +354,9 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                                   onClick={() => {
                                     removeFromWL(coin.id, user).then((x) => {
                                       setWatchList(x);
+                                      setAlertText(
+                                        `${coin?.id?.toUpperCase()} removed from watch list`
+                                      );
                                     });
                                   }}
                                 />

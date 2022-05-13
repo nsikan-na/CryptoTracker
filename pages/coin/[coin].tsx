@@ -10,7 +10,8 @@ import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
 import Link from "next/link";
 const Coin: React.FC<{}> = ({}) => {
   const { user } = useUser();
-  const { currency, setCurrency, theme, setTheme }: any = useContext(Context);
+  const { currency, setCurrency, theme, setTheme, setAlertText }: any =
+    useContext(Context);
   const router = useRouter();
   const { coin }: any = router.query;
   const [symbol, setSymbol] = useState("");
@@ -292,6 +293,10 @@ const Coin: React.FC<{}> = ({}) => {
                   onClick={() => {
                     removeFromWL(coin.toLowerCase(), user).then((x) => {
                       setWatchList(x);
+
+                      setAlertText(
+                        `${coin?.toUpperCase()} removed from watch list`
+                      );
                     });
                   }}
                 >
@@ -303,6 +308,9 @@ const Coin: React.FC<{}> = ({}) => {
                   onClick={() => {
                     addToWL(coin.toLowerCase(), user).then((x) => {
                       setWatchList(x);
+                      setAlertText(
+                        `${coin?.toUpperCase()} added to watch list`
+                      );
                     });
                   }}
                 >
