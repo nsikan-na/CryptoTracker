@@ -100,7 +100,7 @@ const Coin: React.FC<{}> = ({}) => {
       <nav className="secondaryColorBg ">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2 xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
-            <div className="flex justify-start items-center space-x-3">
+            <div className="flex justify-center md:justify-start items-center space-x-3">
               <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
@@ -165,7 +165,7 @@ const Coin: React.FC<{}> = ({}) => {
         </div>
         <div className={`${!spinner ? "block" : "hidden"} text-lg `}>
           <button
-            className={`block rounded-2xl 2xl:ml-72 py-1 px-3 mb-3 font-semibold text-xl cursor-pointer ${
+            className={`block rounded-2xl 2xl:ml-32 py-1 px-3 mb-3 font-semibold text-xl cursor-pointer ${
               theme
                 ? "text-gray-600 hover:text-white"
                 : "text-yellow-300 hover:text-yellow-600"
