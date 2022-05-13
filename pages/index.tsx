@@ -128,23 +128,21 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
             <div className="hidden md:flex justify-evenly items-center space-x-3">
-              <img
+              {/* <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12"
-              />
-              <img
-                src="/images/logo.png"
-                alt="Crypto Logo"
-                className="invisible md:w-1/12 w-2/12"
-              />
+              /> */}
+               <div className='text-2xl font-bold'>CT</div>
+              <div className="invisible md:w-1/12 w-2/12"></div>
             </div>
             <div className="flex justify-evenly items-center space-x-5">
-              <img
+              {/* <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12 md:hidden"
-              />
+              /> */}
+               <div className='text-2xl font-bold md:hidden'>CT</div>
               <select
                 className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
                 onChange={(e) => {
@@ -184,9 +182,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               ) : (
                 <div className="flex space-x-3  justify-end mr-2">
                   <Link href="/api/auth/logout">
-                    <a
-                      className="secondaryColorBg rounded-2xl py-2 px-4"
-                    >
+                    <a className="secondaryColorBg rounded-2xl py-2 px-4">
                       Logout
                     </a>
                   </Link>
