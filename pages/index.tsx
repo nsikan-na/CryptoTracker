@@ -207,9 +207,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       <div className=" secondaryColorBg p-3 mx-2 my-4 rounded-2xl">
         <div className="text-center text-3xl font-bold">CryptoTracker</div>
         <div className="flex justify-center items-center my-1 text-lg">
-          <p className="text-center">
+          <p className="hidden md:flex text-center">
             Get all the Info regarding your favorite Crypto Currency
           </p>
+          <p className="md:hidden text-center">Crypto Currency Info</p>
         </div>
         <AliceCarousel
           items={items}
