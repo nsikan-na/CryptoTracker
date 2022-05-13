@@ -20,7 +20,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   const { user, error, isLoading } = useUser();
   const { currency, setCurrency, theme, setTheme }: any = useContext(Context);
   const [coinData, setCoinData] = useState(coinDataUsd);
-  const [pageNum, setPageNum] = useState(1);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
@@ -48,8 +47,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
     }
     if (!viewWatchList) {
       coinData.forEach((coin: any, i: any) => {
-        if (i >= pageNum * 10) return;
-        if (i <= pageNum * 10 - 11) return;
         setData((prev: any): any => [...prev, coin]);
       });
     }
@@ -70,105 +67,66 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   useEffect(() => {
     setData([]);
     coinData.forEach((coin: any, i: any) => {
-      if (i >= pageNum * 10) return;
-      if (i <= pageNum * 10 - 11) return;
       setData((prev: any): any => [...prev, coin]);
     });
-  }, [pageNum, coinData]);
+  }, [coinData]);
 
   return (
     <>
       <nav className="secondaryColorBg">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
-          <div className="flex justify-evenly items-center">
-            <h1 className="text-4xl"> CryptoTracker</h1>
-            <input
-              ref={inputRef}
-              className="rounded-md px-2 py-1 mx-1"
-              type="text"
-              placeholder="Search"
-              onChange={(e) => {
-                setData([]);
-                if (e.target.value.length === 0) {
-                  setSearch(false);
-                  return coinData.forEach((coin: any, i: any) => {
-                    if (i >= pageNum * 10) return;
-                    if (i <= pageNum * 10 - 11) return;
-                    setData((prev: any): any => [...prev, coin]);
-                  });
-                } else {
-                  setSearch(true);
-                }
-
-                coinData.filter((coin: any) => {
-                  if (
-                    !coin.name.toLowerCase().includes(e.target.value) &&
-                    !coin.symbol.toLowerCase().includes(e.target.value)
-                  )
-                    return;
-                  return setData((prev: any): any => [...prev, coin]);
-                });
-              }}
-            />
-            <select
-              className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
-              onChange={(e) => {
-                setCurrency(e.target.value);
-              }}
-              value={currency}
-            >
-              <option>USD</option>
-              <option>EUR</option>
-            </select>
-            <div className="flex justify-center space-x-5 items-center my-2">
-              <div>Toggle Watch List</div>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  onChange={() => {
-                    setViewWatchList(!viewWatchList);
-                  }}
-                  className="cursor-pointer"
-                />
-                <span className="slider round"></span>
-              </label>
+          <div className="md:flex justify-evenly items-center">
+            <div className="flex justify-center items-center">
+              <h1 className="text-4xl"> CryptoTracker</h1>
             </div>
-            <div>
-              {/*Light/dark Mode */}
-              {theme ? (
-                <NightlightIcon
-                  className="text-black cursor-pointer"
-                  onClick={() => {
-                    setTheme(false);
-                  }}
-                />
+            <div className="flex justify-evenly items-center space-x-5">
+              <select
+                className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
+                onChange={(e) => {
+                  setCurrency(e.target.value);
+                }}
+                value={currency}
+              >
+                <option className='pt-2'>USD</option>
+                <option className='pt-2'>EUR</option>
+              </select>
+              <div>
+                {/*Light/dark Mode */}
+                {theme ? (
+                  <NightlightIcon
+                    className="text-black cursor-pointer"
+                    onClick={() => {
+                      setTheme(false);
+                    }}
+                  />
+                ) : (
+                  <WbSunnyIcon
+                    className="text-white cursor-pointer"
+                    onClick={() => {
+                      setTheme(true);
+                    }}
+                  />
+                )}
+              </div>
+              {!user ? (
+                <div className="flex space-x-3 justify-end mr-2 ">
+                  <Link href="/api/auth/login">
+                    <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                      Login
+                    </a>
+                  </Link>
+                </div>
               ) : (
-                <WbSunnyIcon
-                  className="text-white cursor-pointer"
-                  onClick={() => {
-                    setTheme(true);
-                  }}
-                />
+                <div className="flex space-x-3  justify-end mr-2">
+                  {/* <div className="py-2 px-1">{user.nickname}</div> */}
+                  <Link href="/api/auth/logout">
+                    <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                      Logout
+                    </a>
+                  </Link>
+                </div>
               )}
             </div>
-            {!user ? (
-              <div className="flex space-x-3 justify-end mr-2 ">
-                <Link href="/api/auth/login">
-                  <a className="secondaryColorBg rounded-2xl py-2 px-4">
-                    Login
-                  </a>
-                </Link>
-              </div>
-            ) : (
-              <div className="flex space-x-3  justify-end mr-2">
-                {/* <div className="py-2 px-1">{user.nickname}</div> */}
-                <Link href="/api/auth/logout">
-                  <a className="secondaryColorBg rounded-2xl py-2 px-4">
-                    Logout
-                  </a>
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </nav>
@@ -182,6 +140,47 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             <h1 className="text-center font-semibold text-2xl my-4">
               Top Coins by Market Capitalization
             </h1>
+            <div className="flex justify-center">
+              <input
+                ref={inputRef}
+                className="rounded-md px-2 py-1 mx-1 md:w-5/12 text-center "
+                type="text"
+                placeholder="Search"
+                onChange={(e) => {
+                  setData([]);
+                  if (e.target.value.length === 0) {
+                    setSearch(false);
+                    return coinData.forEach((coin: any) => {
+                      setData((prev: any): any => [...prev, coin]);
+                    });
+                  } else {
+                    setSearch(true);
+                  }
+
+                  coinData.filter((coin: any) => {
+                    if (
+                      !coin.name.toLowerCase().includes(e.target.value) &&
+                      !coin.symbol.toLowerCase().includes(e.target.value)
+                    )
+                      return;
+                    return setData((prev: any): any => [...prev, coin]);
+                  });
+                }}
+              />
+            </div>
+            <div className="flex justify-center space-x-5 items-center my-2">
+              <div>Toggle Watch List</div>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  onChange={() => {
+                    setViewWatchList(!viewWatchList);
+                  }}
+                  className="cursor-pointer"
+                />
+                <span className="slider round"></span>
+              </label>
+            </div>
             {data.length !== 0 ? (
               <div className="">
                 <table className="w-10/12 mx-auto md:hidden">
@@ -330,38 +329,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                   : `You have no coins in your watch list!`}
               </h1>
             )}
-
-            {!search && !viewWatchList ? (
-              <div className="flex justify-center space-x-5 pt-3 pb-3">
-                {pageNum != 1 ? (
-                  <div
-                    className="inline cursor-pointer"
-                    onClick={() => {
-                      setPageNum(pageNum - 1);
-                    }}
-                  >
-                    <KeyboardArrowLeftIcon className="text-blue-300 hover:text-blue-600" />
-                  </div>
-                ) : (
-                  ""
-                )}
-                <div className="inline ">{pageNum}</div>
-                {pageNum != 10 ? (
-                  <div
-                    className="inline cursor-pointer"
-                    onClick={() => {
-                      setPageNum(pageNum + 1);
-                    }}
-                  >
-                    <KeyboardArrowRightIcon className="text-blue-300 hover:text-blue-600" />
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )}
           </div>
         </div>
       </div>
@@ -371,11 +338,11 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 export default Index;
 export const getStaticProps: any = async () => {
   const fetchCoinListUsd: any = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false`
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=50`
   );
   const coinDataUsd: any = await fetchCoinListUsd.json();
   const fetchCoinListEur: any = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&sparkline=false`
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&sparkline=false&per_page=50`
   );
   const coinDataEur: any = await fetchCoinListEur.json();
 

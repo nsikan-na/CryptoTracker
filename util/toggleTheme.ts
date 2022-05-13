@@ -10,5 +10,14 @@ export default function toggleTheme(mode: boolean): void {
     document
       .querySelector<HTMLInputElement>(":root")
       ?.style.setProperty("--mainColorText", mode ? "black" : "white");
+    document
+      .querySelector<HTMLInputElement>(":root")
+      ?.style.setProperty("--linkColor", mode ? "#329BE7" : "rgb(147, 197, 253)");
+    document
+      .querySelector<HTMLInputElement>(":root")
+      ?.style.setProperty(
+        "--linkColorHover",
+        mode ? "#1869EF" : "rgb(59, 130, 246)"
+      );
   }
 }

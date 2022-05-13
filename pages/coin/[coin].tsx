@@ -99,64 +99,68 @@ const Coin: React.FC<{}> = ({}) => {
     <>
       <nav className="secondaryColorBg">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
-          <div className="flex justify-evenly items-center">
-            <h1 className="text-4xl"> CryptoTracker</h1>
-            <select
-              className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
-              onChange={(e) => {
-                setCurrency(e.target.value);
-              }}
-              value={currency}
-            >
-              <option>USD</option>
-              <option>EUR</option>
-            </select>
-            <div>
-              {/*Light/dark Mode */}
-              {theme ? (
-                <NightlightIcon
-                  className="text-black cursor-pointer"
-                  onClick={() => {
-                    setTheme(false);
-                  }}
-                />
+          <div className="md:flex justify-evenly items-center">
+            <div className="flex justify-center items-center">
+              <h1 className="text-4xl"> CryptoTracker</h1>
+            </div>
+            <div className="flex justify-evenly space-x-5 items-center">
+              <select
+                className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
+                onChange={(e) => {
+                  setCurrency(e.target.value);
+                }}
+                value={currency}
+              >
+                <option>USD</option>
+                <option>EUR</option>
+              </select>
+              <div>
+                {/*Light/dark Mode */}
+                {theme ? (
+                  <NightlightIcon
+                    className="text-black cursor-pointer"
+                    onClick={() => {
+                      setTheme(false);
+                    }}
+                  />
+                ) : (
+                  <WbSunnyIcon
+                    className="text-white cursor-pointer"
+                    onClick={() => {
+                      setTheme(true);
+                    }}
+                  />
+                )}
+              </div>
+              {!user ? (
+                <div className="flex space-x-3 justify-end mr-2 ">
+                  <Link href="/api/auth/login">
+                    <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                      Login
+                    </a>
+                  </Link>
+                </div>
               ) : (
-                <WbSunnyIcon
-                  className="text-white cursor-pointer"
-                  onClick={() => {
-                    setTheme(true);
-                  }}
-                />
+                <div className="flex space-x-3  justify-end mr-2">
+                  {/* <div className="py-2 px-1">{user.nickname}</div> */}
+                  <Link href="/api/auth/logout">
+                    <a className="secondaryColorBg rounded-2xl py-2 px-4">
+                      Logout
+                    </a>
+                  </Link>
+                </div>
               )}
             </div>
-            {!user ? (
-              <div className="flex space-x-3 justify-end mr-2 ">
-                <Link href="/api/auth/login">
-                  <a className="secondaryColorBg rounded-2xl py-2 px-4">
-                    Login
-                  </a>
-                </Link>
-              </div>
-            ) : (
-              <div className="flex space-x-3  justify-end mr-2">
-                {/* <div className="py-2 px-1">{user.nickname}</div> */}
-                <Link href="/api/auth/logout">
-                  <a className="secondaryColorBg rounded-2xl py-2 px-4">
-                    Logout
-                  </a>
-                </Link>
-              </div>
-            )}
           </div>
         </div>
       </nav>
-      <div className="m-3 md:m-6 md:mx-7  lg:mx-32">
+      <div className="m-3 md:m-6 md:mx-7 lg:mx-32 ">
         <div className={`${spinner ? "block" : "hidden"}`}>
           <CircularProgress className=" absolute inset-1/2" />
         </div>
         <div className={`${!spinner ? "block" : "hidden"} text-lg `}>
           <button
-            className={`block rounded-2xl  py-1 px-3 mb-3 font-semibold text-xl cursor-pointer ${
+            className={`block rounded-2xl 2xl:ml-72 py-1 px-3 mb-3 font-semibold text-xl cursor-pointer ${
               theme
                 ? "text-gray-600 hover:text-white"
                 : "text-yellow-300 hover:text-yellow-600"
@@ -167,9 +171,9 @@ const Coin: React.FC<{}> = ({}) => {
           >
             {`Back to Coin List`}
           </button>
-          <div className="md:flex  md:justify-evenly md:items-center">
-            <div className="lg:w-4/12">
-              <div className=" secondaryColorBg py-5 mb-2 rounded-2xl">
+          <div className="md:flex  md:justify-evenly md:items-center p-2">
+            <div className="lg:w-5/12">
+              <div className=" secondaryColorBg py-5 mb-2 rounded-2xl ">
                 <div className="flex justify-center">
                   <img
                     src={`${image}`}
@@ -187,8 +191,8 @@ const Coin: React.FC<{}> = ({}) => {
                 >{`${link}`}</a>
               </div>
 
-              <div className=" secondaryColorBg py-5 mb-2 md:mt-4 rounded-2xl">
-                <ul className="text-xl ml-5">
+              <div className=" secondaryColorBg py-5 mb-2 md:mt-4 rounded-2xl p-2">
+                <ul className="text-lg ml-5">
                   <li className="my-1">
                     <span className="font-semibold">{`Rank: `}</span>
                     {rank}
@@ -247,7 +251,7 @@ const Coin: React.FC<{}> = ({}) => {
                 </ul>
               </div>
             </div>
-            <div className=" secondaryColorBg rounded-2xl md:w-7/12 md:h-full flex flex-col 2xl:w-4/12">
+            <div className=" secondaryColorBg rounded-2xl md:w-6/12 md:h-full flex flex-col 2xl:w-4/12">
               <div className="text-center py-3 text-2xl font-semibold">{`Last 7 days`}</div>
               <div className="flex justify-center items-center">
                 <img
@@ -261,7 +265,7 @@ const Coin: React.FC<{}> = ({}) => {
 
           {desc ? (
             <div
-              className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl coinDesc w-9/12 md:w-full mx-auto xl:w-7/12 2xl:w-full"
+              className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl coinDesc mx-auto 2xl:w-9/12"
               dangerouslySetInnerHTML={{ __html: desc }}
             />
           ) : (
@@ -279,7 +283,7 @@ const Coin: React.FC<{}> = ({}) => {
                 return c.toLowerCase() === coin;
               }) ? (
                 <div
-                  className=" secondaryColorBg w-5/12 flex justify-center items-center mx-auto rounded-2xl my-3 p-4 text-center"
+                  className=" secondaryColorBg  flex justify-center items-center mx-auto rounded-2xl my-3 p-4 text-center w-11/12 md:w-6/12 lg:w-5/12 xl:w-4/12 2xl:w-3/12"
                   onClick={() => {
                     removeFromWL(coin.toLowerCase(), user).then((x) => {
                       setWatchList(x);
@@ -290,7 +294,7 @@ const Coin: React.FC<{}> = ({}) => {
                 </div>
               ) : (
                 <div
-                  className={` secondaryColorBg w-5/12 flex justify-center items-center mx-auto rounded-2xl my-3 p-4 text-center `}
+                  className={` secondaryColorBg  flex justify-center items-center mx-auto rounded-2xl my-3 p-4 text-center  w-11/12 md:w-6/12 lg:w-5/12 xl:w-4/12 2xl:w-3/12`}
                   onClick={() => {
                     addToWL(coin.toLowerCase(), user).then((x) => {
                       setWatchList(x);

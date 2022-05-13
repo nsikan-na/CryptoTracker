@@ -9,11 +9,13 @@ td {
   border-bottom: 0.25px solid var(--mainColorText);
 }
 
-a {
-  color: rgb(147, 197, 253);
+a,
+.link {
+  color:var(--linkColor) ;
 }
-a:hover {
-  color: rgb(59, 130, 246);
+a:hover,
+.link:hover {
+  color:var(--linkColorHover) ;
 }
 body {
   background-color: var(--mainColorBg);
@@ -90,6 +92,6 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
-.coinDesc{
-    line-height:225%;
+.coinDesc {
+  line-height: 225%;
 }
