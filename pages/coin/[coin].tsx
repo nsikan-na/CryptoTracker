@@ -9,7 +9,7 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
 import Link from "next/link";
 const Coin: React.FC<{}> = ({}) => {
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const { currency, setCurrency, theme, setTheme }: any = useContext(Context);
   const router = useRouter();
   const { coin }: any = router.query;
@@ -106,7 +106,7 @@ const Coin: React.FC<{}> = ({}) => {
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12"
               />
-              <h1 className="text-3xl"> CryptoTracker</h1>
+              <h1 className="text-3xl font-bold"> CryptoTracker</h1>
             </div>
             <div className="flex justify-evenly space-x-5 items-center">
               <select

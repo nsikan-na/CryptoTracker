@@ -5,27 +5,76 @@ import { Context } from "./_app";
 import Link from "next/link";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CircularProgress from "@mui/material/CircularProgress";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
+
+import AliceCarousel from "react-alice-carousel";
+import "react-alice-carousel/lib/alice-carousel.css";
+
 const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   coinDataUsd,
   coinDataEur,
 }) => {
+  const handleDragStart = (e: any) => e.preventDefault();
+
   const router = useRouter();
   const inputRef: any = useRef();
-  const { user, error, isLoading } = useUser();
+  const { user } = useUser();
   const { currency, setCurrency, theme, setTheme }: any = useContext(Context);
   const [coinData, setCoinData] = useState(coinDataUsd);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
-
+  // console.log(data[0]?.image);
+  const items = [
+    coinData[0],
+    coinData[1],
+    coinData[2],
+    coinData[3],
+    coinData[4],
+  ].map((item: any) => [
+    <div
+      key={item.id}
+      className="flex flex-col justify-center items-center my-2 "
+      onClick={() => {
+        router.push(`/coin/${item.id}`);
+      }}
+    >
+      <img
+        className="w-3/12 my-2 cursor-pointer 2xl:w-2/12"
+        src={item?.image}
+        onDragStart={handleDragStart}
+        role="presentation"
+      />
+      <div className="my-1 cursor-pointer space-x-2">
+        <span>{item.symbol.toUpperCase()}</span>
+        <span
+          className={`${
+            item.price_change_percentage_24h > 0
+              ? "text-green-600"
+              : "text-red-600"
+          }`}
+        >
+          {item.price_change_percentage_24h > 0
+            ? `+${item.price_change_percentage_24h.toFixed(2)}%`
+            : `${item.price_change_percentage_24h.toFixed(2)}%`}
+        </span>
+      </div>
+      <div className="my-1 cursor-pointer">
+        {currency === "USD" ? "$" : `€`}
+        {Intl.NumberFormat().format(item.current_price.toFixed(2))}
+      </div>
+    </div>,
+  ]);
+  const responsive = {
+    0: { items: 1 },
+    512: { items: 3 },
+    1024: { items: 4 },
+  };
   useEffect(() => {
     if (!user) return;
     getWL(user).then((x) => {
@@ -76,15 +125,24 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       <nav className="secondaryColorBg">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
-            <div className="flex justify-center md:justify-start items-center space-x-3">
+            <div className="hidden md:flex justify-evenly items-center space-x-3">
               <img
                 src="/images/logo.png"
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12"
               />
-              <h1 className="text-3xl"> CryptoTracker</h1>
+              <img
+                src="/images/logo.png"
+                alt="Crypto Logo"
+                className="invisible md:w-1/12 w-2/12"
+              />
             </div>
             <div className="flex justify-evenly items-center space-x-5">
+              <img
+                src="/images/logo.png"
+                alt="Crypto Logo"
+                className="md:w-1/12 w-2/12 md:hidden"
+              />
               <select
                 className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
                 onChange={(e) => {
@@ -135,6 +193,24 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           </div>
         </div>
       </nav>
+      <div className=" secondaryColorBg p-3 mx-2 my-4 rounded-2xl">
+        <div className="text-center text-3xl font-bold">CryptoTracker</div>
+        <div className="flex justify-center items-center my-1">
+          <p className="text-center">
+            Get all the Info regarding your favorite Crypto Currency
+          </p>
+        </div>
+        <AliceCarousel
+          items={items}
+          infinite
+          disableButtonsControls={true}
+          disableDotsControls={true}
+          autoPlay={true}
+          autoPlayInterval={1500}
+          responsive={responsive}
+          animationDuration={1000}
+        />
+      </div>
       <div className="m-2 md:m-5 md:mx-7  lg:mx-32 ">
         <div className={`${spinner ? "block" : "hidden"}`}>
           <CircularProgress className=" absolute inset-1/2 " />
@@ -164,8 +240,12 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 
                   coinData.filter((coin: any) => {
                     if (
-                      !coin.name.toLowerCase().includes(e.target.value) &&
-                      !coin.symbol.toLowerCase().includes(e.target.value)
+                      !coin.name
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase()) &&
+                      !coin.symbol
+                        .toLowerCase()
+                        .includes(e.target.value.toLowerCase())
                     )
                       return;
                     return setData((prev: any): any => [...prev, coin]);
@@ -241,7 +321,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         <td className=""></td>
                         <td className="pl-10">Name</td>
                         <td>Price</td>
-                        <td className="">1d</td>
+                        <td className="">24h Change</td>
                         <td className="">Market Cap</td>
                       </tr>
                     </thead>

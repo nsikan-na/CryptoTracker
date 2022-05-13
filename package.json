@@ -20,6 +20,7 @@
     "next": "12.1.5",
     "quickchart-js": "^3.0.1",
     "react": "18.0.0",
+    "react-alice-carousel": "^2.6.0",
     "react-dom": "18.0.0"
   },
   "devDependencies": {
