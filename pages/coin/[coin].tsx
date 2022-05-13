@@ -167,7 +167,7 @@ const Coin: React.FC<{}> = ({}) => {
         </div>
         <div className={`${!spinner ? "block" : "hidden"} text-lg `}>
           <button
-            className={`secondaryColorBg block rounded-2xl lg:ml-8 2xl:ml-52 py-1 px-3 mb-3 text-xl cursor-pointer ${
+            className={`secondaryColorBg block rounded-2xl lg:ml-8 2xl:ml-52 py-1 px-3 mb-3 text-xl cursor-pointer font-semibold ${
               theme
                 ? "text-gray-600 hover:text-white"
                 : "text-yellow-300 hover:text-yellow-600"
