@@ -107,7 +107,14 @@ const Coin: React.FC<{}> = ({}) => {
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12"
               /> */}
-              <h1 className="text-3xl font-bold"> CryptoTracker</h1>
+              <h1
+                className={`text-2xl font-bold ${
+                  theme ? "text-black" : " text-yellow-500"
+                }`}
+              >
+                {" "}
+                CryptoTracker
+              </h1>
             </div>
             <div className="flex justify-evenly space-x-5 items-center">
               <select

@@ -133,7 +133,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12"
               /> */}
-               <div className='text-2xl font-bold'>CT</div>
+              <div
+                className={`text-2xl font-bold ${
+                  theme ? "text-black" : " text-yellow-500"
+                }`}
+              >
+                CryptoTracker
+              </div>
               <div className="invisible md:w-1/12 w-2/12"></div>
             </div>
             <div className="flex justify-evenly items-center space-x-5">
@@ -142,7 +148,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 alt="Crypto Logo"
                 className="md:w-1/12 w-2/12 md:hidden"
               /> */}
-               <div className='text-2xl font-bold md:hidden'>CT</div>
+              <div
+                className={`text-2xl font-bold md:hidden ${
+                  theme ? "text-black" : "text-yellow-500"
+                }`}
+              >
+                CT
+              </div>
               <select
                 className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer"
                 onChange={(e) => {
@@ -164,7 +176,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                   />
                 ) : (
                   <WbSunnyIcon
-                    className="text-white cursor-pointer"
+                    className="text-white cursor-pointer "
                     onClick={() => {
                       setTheme(true);
                     }}
