@@ -6,7 +6,7 @@ import Link from "next/link";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CircularProgress from "@mui/material/CircularProgress";
-import NightsStayIcon from '@mui/icons-material/NightsStay';
+import NightsStayIcon from "@mui/icons-material/NightsStay";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 
@@ -122,7 +122,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
             <div className="hidden md:flex justify-evenly items-center space-x-3">
-
               <div
                 className={`text-2xl font-bold ${
                   theme ? "text-black" : " text-yellow-500"
@@ -133,7 +132,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               <div className="invisible md:w-1/12 w-2/12"></div>
             </div>
             <div className="flex justify-evenly items-center space-x-5">
-
               <div
                 className={`text-3xl font-bold md:hidden ${
                   theme ? "text-black" : "text-yellow-500"
@@ -207,6 +205,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           autoPlayInterval={1500}
           responsive={responsive}
           animationDuration={1000}
+          mouseTracking
         />
       </div>
       <div className="m-2 md:m-5 md:mx-7  lg:mx-32 ">
