@@ -258,6 +258,9 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                         .includes(e.target.value.toLowerCase()) &&
                       !coin.symbol
                         .toLowerCase()
+                        .includes(e.target.value.toLowerCase()) &&
+                      !coin.id
+                        .toLowerCase()
                         .includes(e.target.value.toLowerCase())
                     )
                       return;
