@@ -136,7 +136,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 onClick={() => {
                   router.push("/");
                 }}
-                className={`text-2xl font-bold cursor-pointer${
+                className={`text-2xl font-bold cursor-pointer ${
                   theme ? "text-black" : " text-yellow-500"
                 }`}
               >
