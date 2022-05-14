@@ -133,7 +133,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           <div className="md:flex justify-between items-center">
             <div className="hidden md:flex justify-evenly items-center space-x-3">
               <div
-                className={`text-2xl font-bold ${
+                onClick={() => {
+                  router.push("/");
+                }}
+                className={`text-2xl font-bold cursor-pointer${
                   theme ? "text-black" : " text-yellow-500"
                 }`}
               >
@@ -143,7 +146,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             </div>
             <div className="flex justify-evenly items-center space-x-5">
               <div
-                className={`text-3xl font-bold md:hidden ${
+                onClick={() => {
+                  router.push("/");
+                }}
+                className={`text-3xl font-bold md:hidden cursor-pointer ${
                   theme ? "text-black" : "text-yellow-500"
                 }`}
               >

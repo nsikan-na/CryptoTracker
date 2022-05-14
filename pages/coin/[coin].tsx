@@ -4,7 +4,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Context } from "../_app";
 import { useRouter } from "next/router";
-import NightsStayIcon from '@mui/icons-material/NightsStay';
+import NightsStayIcon from "@mui/icons-material/NightsStay";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
 import Link from "next/link";
@@ -102,9 +102,11 @@ const Coin: React.FC<{}> = ({}) => {
         <div className="secondaryColorBg rounded-2xl py-4 mx-2 xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
             <div className="flex justify-center md:justify-start items-center space-x-3">
-
               <h1
-                className={`text-3xl font-bold ${
+                onClick={() => {
+                  router.push("/");
+                }}
+                className={`text-3xl font-bold cursor-pointer ${
                   theme ? "text-black" : " text-yellow-500"
                 }`}
               >
@@ -169,7 +171,7 @@ const Coin: React.FC<{}> = ({}) => {
           <button
             className={`secondaryColorBg block rounded-2xl lg:ml-8 2xl:ml-52 py-1 px-3 mb-3 text-xl cursor-pointer font-semibold ${
               theme
-                ? "text-gray-600 hover:text-white"
+                ? "text-gray-400 hover:text-gray-800"
                 : "text-yellow-300 hover:text-yellow-600"
             }`}
             onClick={() => {
