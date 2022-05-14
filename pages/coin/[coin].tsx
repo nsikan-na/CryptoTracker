@@ -171,7 +171,7 @@ const Coin: React.FC<{}> = ({}) => {
           <button
             className={`secondaryColorBg block rounded-2xl lg:ml-8 2xl:ml-52 py-1 px-3 mb-3 text-xl cursor-pointer font-semibold ${
               theme
-                ? "text-gray-400 hover:text-gray-800"
+                ? "text-gray-500 hover:text-gray-800"
                 : "text-yellow-300 hover:text-yellow-600"
             }`}
             onClick={() => {
