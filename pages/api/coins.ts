@@ -33,8 +33,8 @@ export default async function handler(
       const color =
         price_change_percentage_7d_in_currency.usd < 0 &&
         price_change_percentage_7d_in_currency.eur < 0
-          ? ["#EA0F0F"]
-          : ["#00A300"];
+          ? "#EA0F0F"
+          : "#00A300";
       const fetchChart = await fetch(
         `https://api.coingecko.com/api/v3/coins/${coin}/market_chart?vs_currency=${currency.toLowerCase()}&days=7`
       );
