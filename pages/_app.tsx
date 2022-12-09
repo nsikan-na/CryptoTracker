@@ -32,6 +32,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
         <meta name="google" content="notranslate" key="notranslate" />
         <meta name="author" content="Nsikan Akpan" />
+        <meta property="og:image" content="/images/logo.png" />
+        <link rel="icon" href="/images/logo.png" />
       </Head>
       <Context.Provider
         value={{
