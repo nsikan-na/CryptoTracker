@@ -31,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="googlebot" content="noindex,nofollow" />
         <meta name="google" content="nositelinkssearchbox" key="sitelinks" />
         <meta name="google" content="notranslate" key="notranslate" />
+        <meta name="author" content="Nsikan Akpan" />
       </Head>
       <Context.Provider
         value={{
