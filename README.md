@@ -2,16 +2,7 @@
 
 ## [Visit Live Site](https://cryptocoins-tracker.vercel.app/)
 
-This app is used to track information on the top coins by market capitalization.
-
-## Project Focus
-
-- Responsive interface
-- Fetches most data from [Coingecko Api](https://www.coingecko.com/en/api/documentation)
-- Uses [Quickchart.io](https://quickchart.io/) for charting data
-- Uses [Auth0](https://auth0.com/docs) for authentication
-- Manage state using React's context api
-- Store user data in NoSql database
+This is an application for quickly getting information on a top 50 crypto coins. The data comes from the Coingecko api and uses Quickchart.io api for charting data. Lastly, the application uses Auth0 for authentication.
 
 ## This was build using
 
@@ -20,3 +11,6 @@ This app is used to track information on the top coins by market capitalization.
 - Tailwind.css
 - NoSql
 - MongoDB
+- QuickChart.io Api
+- Auth0 Api
+- Coingecko Api
