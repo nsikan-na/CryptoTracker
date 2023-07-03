@@ -114,7 +114,7 @@ const Coin: React.FC<{}> = ({}) => {
               </h1>
             </div>
             <div className="flex justify-evenly space-x-5 items-center">
-              <select
+              {/* <select
                 className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer font-semibold"
                 onChange={(e) => {
                   setCurrency(e.target.value);
@@ -125,7 +125,6 @@ const Coin: React.FC<{}> = ({}) => {
                 <option>EUR</option>
               </select>
               <div>
-                {/*Light/dark Mode */}
                 {theme ? (
                   <NightsStayIcon
                     className="text-black cursor-pointer"
@@ -141,7 +140,7 @@ const Coin: React.FC<{}> = ({}) => {
                     }}
                   />
                 )}
-              </div>
+              </div> */}
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 ">
                   <Link href="/api/auth/login">
