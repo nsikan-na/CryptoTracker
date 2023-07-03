@@ -204,6 +204,26 @@ const Coin: React.FC<{}> = ({}) => {
                   <li className="my-1">{`Rank: ${rank}`}</li>
                   <li className="my15">{`Symbol: ${symbol}`}</li>
                   <li className="my-1">{`Current Price: ${currentPrice}`}</li>
+                  <li className="my-1">
+                    <span className="font-semibold ">{`Market Cap: `}</span>
+                    {marketCap?.toString().length > 9
+                      ? `${currency === "USD" ? "$" : `€`}${(
+                          Number(marketCap) / 1000000000
+                        ).toFixed(1)}B`
+                      : `${currency === "USD" ? "$" : `€`}${(
+                          Number(marketCap) / 1000000
+                        ).toFixed(1)}M`}
+                  </li>
+                  <li className="my-1">
+                    <span className="font-semibold">{`Total Volume  : `}</span>
+                    {totalVolume?.toString().length > 9
+                      ? `${currency === "USD" ? "$" : `€`}${(
+                          Number(totalVolume) / 1000000000
+                        ).toFixed(1)}B`
+                      : `${currency === "USD" ? "$" : `€`}${(
+                          Number(totalVolume) / 1000000
+                        ).toFixed(1)}M`}
+                  </li>
                   <div className="font-semibold my-1 text-center">
                     Price Change Last x Days
                   </div>
@@ -227,26 +247,6 @@ const Coin: React.FC<{}> = ({}) => {
                       </span>
                     </li>
                   ))}
-                  <li className="my-1">
-                    <span className="font-semibold ">{`Market Cap: `}</span>
-                    {marketCap?.toString().length > 9
-                      ? `${currency === "USD" ? "$" : `€`}${(
-                          Number(marketCap) / 1000000000
-                        ).toFixed(1)}B`
-                      : `${currency === "USD" ? "$" : `€`}${(
-                          Number(marketCap) / 1000000
-                        ).toFixed(1)}M`}
-                  </li>
-                  <li className="my-1">
-                    <span className="font-semibold">{`Total Volume  : `}</span>
-                    {totalVolume?.toString().length > 9
-                      ? `${currency === "USD" ? "$" : `€`}${(
-                          Number(totalVolume) / 1000000000
-                        ).toFixed(1)}B`
-                      : `${currency === "USD" ? "$" : `€`}${(
-                          Number(totalVolume) / 1000000
-                        ).toFixed(1)}M`}
-                  </li>
                 </ul>
               </div>
             </div>
