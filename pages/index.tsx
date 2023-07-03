@@ -459,11 +459,11 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 export default Index;
 export const getStaticProps: any = async () => {
   const fetchCoinListUsd: any = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=50`
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=25`
   );
   const coinDataUsd: any = await fetchCoinListUsd.json();
   const fetchCoinListEur: any = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&sparkline=false&per_page=50`
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&sparkline=false&per_page=25`
   );
   const coinDataEur: any = await fetchCoinListEur.json();
 
