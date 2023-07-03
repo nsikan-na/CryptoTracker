@@ -155,7 +155,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               >
                 CT
               </div>
-              <select
+              {/* <select
                 className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer font-semibold"
                 onChange={(e) => {
                   setCurrency(e.target.value);
@@ -164,10 +164,10 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
               >
                 <option className="pt-2">USD</option>
                 <option className="pt-2">EUR</option>
-              </select>
-              <div>
-                {/*Light/dark Mode */}
-                {theme ? (
+              </select> */}
+              {/* <div> 
+                Light/dark Mode 
+                 {theme ? (
                   <NightsStayIcon
                     className="text-black cursor-pointer"
                     onClick={() => {
@@ -181,8 +181,8 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                       setTheme(true);
                     }}
                   />
-                )}
-              </div>
+                )} 
+             </div> */}
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 font-semibold">
                   <Link href="/api/auth/login">

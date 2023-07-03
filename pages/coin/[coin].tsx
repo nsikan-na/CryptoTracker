@@ -263,14 +263,14 @@ const Coin: React.FC<{}> = ({}) => {
             </div>
           </div>
 
-          {desc ? (
+          {/* {desc ? (
             <div
               className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl coinDesc mx-auto 2xl:w-9/12 font-semibold"
               dangerouslySetInnerHTML={{ __html: desc }}
             />
           ) : (
             ""
-          )}
+          )} */}
           {user ? (
             <div
               className={`lg:text-xl cursor-pointer ${
