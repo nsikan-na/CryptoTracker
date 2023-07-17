@@ -7,11 +7,11 @@ import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
-
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import dummyData from "./dummyData";
 
-const Index: React.FC<{ coinData: any }> = ({ coinData }) => {
+const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   const handleDragStart = (e: any) => e.preventDefault();
 
   const router = useRouter();
@@ -22,7 +22,7 @@ const Index: React.FC<{ coinData: any }> = ({ coinData }) => {
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
-
+  const coinData = !coinDataUs.status ? coinDataUs : dummyData;
   const items = coinData.map((item: any) => [
     <div
       key={item.id}
@@ -365,10 +365,10 @@ export const getStaticProps: any = async () => {
   const fetchCoinList: any = await fetch(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=20`
   );
-  const coinData: any = await fetchCoinList.json();
+  const coinDataUs: any = await fetchCoinList.json();
 
   return {
-    props: { coinData },
+    props: { coinDataUs },
     revalidate: 60,
   };
 };
