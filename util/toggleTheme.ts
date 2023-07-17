@@ -1,27 +1,19 @@
-export default function toggleTheme(mode: boolean): void {
-  //changes the theme colors
+export default function toggleTheme(): void {
   if (process.browser) {
-    //light,dark
     document
       .querySelector<HTMLInputElement>(":root")
-      ?.style.setProperty("--secondaryColorBg", mode ? "white" : "#191b1f");
+      ?.style.setProperty("--secondaryColorBg", "#191b1f");
     document
       .querySelector<HTMLInputElement>(":root")
-      ?.style.setProperty("--mainColorBg", mode ? "lightgray" : "#1f2128");
+      ?.style.setProperty("--mainColorBg", "#1f2128");
     document
       .querySelector<HTMLInputElement>(":root")
-      ?.style.setProperty("--mainColorText", mode ? "black" : "white");
+      ?.style.setProperty("--mainColorText", "white");
     document
       .querySelector<HTMLInputElement>(":root")
-      ?.style.setProperty(
-        "--linkColor",
-        mode ? "#329BE7" : "rgb(147, 197, 253)"
-      );
+      ?.style.setProperty("--linkColor", "rgb(147, 197, 253)");
     document
       .querySelector<HTMLInputElement>(":root")
-      ?.style.setProperty(
-        "--linkColorHover",
-        mode ? "#1869EF" : "rgb(59, 130, 246)"
-      );
+      ?.style.setProperty("--linkColorHover", "rgb(59, 130, 246)");
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0";
 import { Context } from "./_app";
@@ -6,25 +6,17 @@ import Link from "next/link";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CircularProgress from "@mui/material/CircularProgress";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 
-const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
-  coinDataUsd,
-  coinDataEur,
-}) => {
+const Index: React.FC<{ coinData: any }> = ({ coinData }) => {
   const handleDragStart = (e: any) => e.preventDefault();
 
   const router = useRouter();
-  const inputRef: any = useRef();
   const { user } = useUser();
-  const { currency, setCurrency, theme, setTheme, setAlertText }: any =
-    useContext(Context);
-  const [coinData, setCoinData] = useState(coinDataUsd);
+  const { setAlertText }: any = useContext(Context);
   const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
@@ -70,8 +62,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
           router.push(`/coin/${item.id}`);
         }}
       >
-        {currency === "USD" ? "$" : `€`}
-        {Intl.NumberFormat().format(item.current_price.toFixed(2))}
+        ${Intl.NumberFormat().format(item.current_price.toFixed(2))}
       </div>
     </div>,
   ]);
@@ -91,7 +82,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
   useEffect(() => {
     if (search) return;
     setData([]);
-    inputRef.current.value = "";
     setSearch(false);
     if (viewWatchList) {
       setData(
@@ -106,12 +96,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
       });
     }
   }, [viewWatchList, watchList]);
-
-  useEffect(() => {
-    setSearch(false);
-    setViewWatchList(false);
-    currency === "USD" ? setCoinData(coinDataUsd) : setCoinData(coinDataEur);
-  }, [currency]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -136,9 +120,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 onClick={() => {
                   router.push("/");
                 }}
-                className={`text-3xl font-bold cursor-pointer ${
-                  theme ? "text-black" : " text-yellow-500"
-                }`}
+                className={`text-3xl font-bold cursor-pointer text-yellow-500`}
               >
                 CryptoTracker
               </div>
@@ -149,40 +131,11 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 onClick={() => {
                   router.push("/");
                 }}
-                className={`text-3xl font-bold md:hidden cursor-pointer ${
-                  theme ? "text-black" : "text-yellow-500"
-                }`}
+                className={`text-3xl font-bold md:hidden cursor-pointer text-yellow-500`}
               >
                 CT
               </div>
-              {/* <select
-                className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer font-semibold"
-                onChange={(e) => {
-                  setCurrency(e.target.value);
-                }}
-                value={currency}
-              >
-                <option className="pt-2">USD</option>
-                <option className="pt-2">EUR</option>
-              </select> */}
-              {/* <div> 
-                Light/dark Mode 
-                 {theme ? (
-                  <NightsStayIcon
-                    className="text-black cursor-pointer"
-                    onClick={() => {
-                      setTheme(false);
-                    }}
-                  />
-                ) : (
-                  <WbSunnyIcon
-                    className="text-white cursor-pointer "
-                    onClick={() => {
-                      setTheme(true);
-                    }}
-                  />
-                )} 
-             </div> */}
+
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 font-semibold">
                   <Link href="/api/auth/login">
@@ -205,13 +158,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
         </div>
       </nav>
       <div className=" secondaryColorBg p-3 mx-2 my-4 rounded-2xl">
-        <div className="text-center text-3xl font-bold">CryptoTracker</div>
-        <div className="flex justify-center items-center my-1 text-lg">
-          <p className="hidden md:flex text-center ">
-            Get all the Info regarding your favorite Crypto Currency
-          </p>
-          <p className="md:hidden text-center ">Crypto Currency Info</p>
-        </div>
         <AliceCarousel
           items={items}
           infinite
@@ -234,41 +180,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             <h1 className="text-center font-bold text-2xl my-4">
               Top Coins by Market Capitalization
             </h1>
-            <div className="flex justify-center">
-              <input
-                ref={inputRef}
-                className="rounded-md px-2 py-1 mx-1 md:w-5/12 text-center font-semibold "
-                type="text"
-                placeholder="Search"
-                onChange={(e) => {
-                  setData([]);
-                  if (e.target.value.length === 0) {
-                    setSearch(false);
-                    return coinData.forEach((coin: any) => {
-                      setData((prev: any): any => [...prev, coin]);
-                    });
-                  } else {
-                    setSearch(true);
-                  }
-
-                  coinData.filter((coin: any) => {
-                    if (
-                      !coin.name
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase()) &&
-                      !coin.symbol
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase()) &&
-                      !coin.id
-                        .toLowerCase()
-                        .includes(e.target.value.toLowerCase())
-                    )
-                      return;
-                    return setData((prev: any): any => [...prev, coin]);
-                  });
-                }}
-              />
-            </div>
             <div className="flex justify-center space-x-5 items-center my-2 font-semibold">
               {user ? (
                 <>
@@ -299,8 +210,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
             {data.length !== 0 ? (
               <div className="">
                 <table className="w-10/12 mx-auto md:hidden font-semibold">
-                  {/* Mobile table*/}
-
                   <thead>
                     <tr>
                       <td>Name</td>
@@ -329,7 +238,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                           <span className="hidden md:inline">{`(${coin.symbol.toUpperCase()})`}</span>
                         </td>
                         <td>
-                          {currency === "USD" ? "$" : `€`}
+                          $
                           {Intl.NumberFormat().format(
                             coin.current_price.toFixed(2)
                           )}
@@ -340,7 +249,6 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                 </table>
                 <div className="flex justify-center">
                   <table className="hidden md:block pb-4 font-semibold">
-                    {/* Table/desktop table*/}
                     <thead>
                       <tr>
                         <td className="">#</td>
@@ -407,7 +315,7 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
                             </span>
                           </td>
                           <td>
-                            {currency === "USD" ? "$" : `€`}
+                            $
                             {Intl.NumberFormat().format(
                               coin.current_price.toFixed(2)
                             )}
@@ -430,12 +338,8 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 
                           <td className="">
                             {coin.market_cap.toString().length > 9
-                              ? `${currency === "USD" ? "$" : `€`}${(
-                                  coin.market_cap / 1000000000
-                                ).toFixed(1)}B`
-                              : `${currency === "USD" ? "$" : `€`}${(
-                                  coin.market_cap / 1000000
-                                ).toFixed(1)}M`}
+                              ? `$${(coin.market_cap / 1000000000).toFixed(1)}B`
+                              : `$${(coin.market_cap / 1000000).toFixed(1)}M`}
                           </td>
                         </tr>
                       ))}
@@ -458,17 +362,13 @@ const Index: React.FC<{ coinDataUsd: any; coinDataEur: any }> = ({
 };
 export default Index;
 export const getStaticProps: any = async () => {
-  const fetchCoinListUsd: any = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=25`
+  const fetchCoinList: any = await fetch(
+    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=20`
   );
-  const coinDataUsd: any = await fetchCoinListUsd.json();
-  // const fetchCoinListEur: any = await fetch(
-  //   `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&sparkline=false&per_page=25`
-  // );
-  // const coinDataEur: any = await fetchCoinListEur.json();
+  const coinData: any = await fetchCoinList.json();
 
   return {
-    props: { coinDataUsd },
+    props: { coinData },
     revalidate: 60,
   };
 };

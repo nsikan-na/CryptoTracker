@@ -1,22 +1,19 @@
 import React, { useEffect, useState, useContext } from "react";
-import Image from "next/image";
+
 import { useUser } from "@auth0/nextjs-auth0";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Context } from "../_app";
 import { useRouter } from "next/router";
-import NightsStayIcon from "@mui/icons-material/NightsStay";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
+
 import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
 import Link from "next/link";
 const Coin: React.FC<{}> = ({}) => {
   const { user } = useUser();
-  const { currency, setCurrency, theme, setTheme, setAlertText }: any =
-    useContext(Context);
+  const { setAlertText }: any = useContext(Context);
   const router = useRouter();
   const { coin }: any = router.query;
   const [symbol, setSymbol] = useState("");
   const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
   const [rank, setRank] = useState("");
   const [currentPrice, setCurrentPrice] = useState("");
   const [image, setImage] = useState("");
@@ -31,12 +28,11 @@ const Coin: React.FC<{}> = ({}) => {
   const [watchList, setWatchList] = useState<string[]>([]);
 
   async function getCoinInfo(coin: any) {
-    //fetch coins information form
     const response = await fetch(`/api/coins`, {
       method: "POST",
       body: JSON.stringify({
         coin,
-        currency,
+        currency: "USD",
       }),
       headers: {
         "Content-Type": "application/json",
@@ -46,41 +42,14 @@ const Coin: React.FC<{}> = ({}) => {
 
     setName(data.name);
     setSymbol(data.symbol?.toUpperCase());
-    setDesc(data.desc);
     setImage(data.image?.large);
     setRank(data.market_cap_rank);
-    setCurrentPrice(
-      `${currency === "USD" ? "$" : `€`}${
-        currency === "USD"
-          ? Intl.NumberFormat().format(data.current_price?.usd)
-          : Intl.NumberFormat().format(data.current_price?.eur)
-      }`
-    );
-    setDay(
-      `${
-        currency === "USD" ? data.day?.usd.toFixed(2) : data.day?.eur.toFixed(2)
-      }`
-    );
-    setWeek(
-      `${
-        currency === "USD"
-          ? data.week?.usd.toFixed(2)
-          : data.week?.eur.toFixed(2)
-      }`
-    );
-    setMonths(
-      `${
-        currency === "USD"
-          ? data.month?.usd.toFixed(2)
-          : data.month?.eur.toFixed(2)
-      }`
-    );
-    setTotalVolume(
-      currency === "USD" ? data.total_volume?.usd : data.total_volume?.eur
-    );
-    setMarketCap(
-      currency === "USD" ? data.market_cap?.usd : data.market_cap?.eur
-    );
+    setCurrentPrice(`$${Intl.NumberFormat().format(data.current_price?.usd)}`);
+    setDay(data.day?.usd.toFixed(2));
+    setWeek(`${data.week?.usd.toFixed(2)}`);
+    setMonths(data.month?.usd.toFixed(2));
+    setTotalVolume(data.total_volume?.usd);
+    setMarketCap(data.market_cap?.usd);
     setChart(data.chart);
     setLink(data.link);
     setTimeout(() => {
@@ -94,7 +63,7 @@ const Coin: React.FC<{}> = ({}) => {
     getWL(user).then((x) => {
       setWatchList(x);
     });
-  }, [coin, user, currency]);
+  }, [coin, user]);
 
   return (
     <>
@@ -106,41 +75,12 @@ const Coin: React.FC<{}> = ({}) => {
                 onClick={() => {
                   router.push("/");
                 }}
-                className={`text-3xl font-bold cursor-pointer ${
-                  theme ? "text-black" : " text-yellow-500"
-                }`}
+                className={`text-3xl font-bold cursor-pointer text-yellow-500`}
               >
                 CryptoTracker
               </h1>
             </div>
             <div className="flex justify-evenly space-x-5 items-center">
-              {/* <select
-                className="rounded-md px-2 py-1 mx-1 hover:cursor-pointer font-semibold"
-                onChange={(e) => {
-                  setCurrency(e.target.value);
-                }}
-                value={currency}
-              >
-                <option>USD</option>
-                <option>EUR</option>
-              </select>
-              <div>
-                {theme ? (
-                  <NightsStayIcon
-                    className="text-black cursor-pointer"
-                    onClick={() => {
-                      setTheme(false);
-                    }}
-                  />
-                ) : (
-                  <WbSunnyIcon
-                    className="text-white cursor-pointer"
-                    onClick={() => {
-                      setTheme(true);
-                    }}
-                  />
-                )}
-              </div> */}
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 ">
                   <Link href="/api/auth/login">
@@ -168,11 +108,9 @@ const Coin: React.FC<{}> = ({}) => {
         </div>
         <div className={`${!spinner ? "block" : "hidden"} text-lg `}>
           <button
-            className={`secondaryColorBg block rounded-2xl lg:ml-8 2xl:ml-52 py-1 px-3 mb-3 text-xl cursor-pointer font-semibold ${
-              theme
-                ? "text-gray-500 hover:text-gray-800"
-                : "text-yellow-300 hover:text-yellow-600"
-            }`}
+            className={`secondaryColorBg block rounded-2xl lg:ml-8 2xl:ml-52 py-1 px-3 mb-3 text-xl cursor-pointer font-semibold
+             text-yellow-300 hover:text-yellow-600
+            `}
             onClick={() => {
               router.back();
             }}
@@ -207,22 +145,14 @@ const Coin: React.FC<{}> = ({}) => {
                   <li className="my-1">
                     <span className="font-semibold ">{`Market Cap: `}</span>
                     {marketCap?.toString().length > 9
-                      ? `${currency === "USD" ? "$" : `€`}${(
-                          Number(marketCap) / 1000000000
-                        ).toFixed(1)}B`
-                      : `${currency === "USD" ? "$" : `€`}${(
-                          Number(marketCap) / 1000000
-                        ).toFixed(1)}M`}
+                      ? `$${(Number(marketCap) / 1000000000).toFixed(1)}B`
+                      : `$${(Number(marketCap) / 1000000).toFixed(1)}M`}
                   </li>
                   <li className="my-1">
                     <span className="font-semibold">{`Total Volume  : `}</span>
                     {totalVolume?.toString().length > 9
-                      ? `${currency === "USD" ? "$" : `€`}${(
-                          Number(totalVolume) / 1000000000
-                        ).toFixed(1)}B`
-                      : `${currency === "USD" ? "$" : `€`}${(
-                          Number(totalVolume) / 1000000
-                        ).toFixed(1)}M`}
+                      ? `$${(Number(totalVolume) / 1000000000).toFixed(1)}B`
+                      : `$${(Number(totalVolume) / 1000000).toFixed(1)}M`}
                   </li>
                   <div className="font-semibold my-1 text-center">
                     Price Change Last x Days
@@ -262,21 +192,10 @@ const Coin: React.FC<{}> = ({}) => {
             </div>
           </div>
 
-          {/* {desc ? (
-            <div
-              className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl coinDesc mx-auto 2xl:w-9/12 font-semibold"
-              dangerouslySetInnerHTML={{ __html: desc }}
-            />
-          ) : (
-            ""
-          )} */}
           {user ? (
             <div
-              className={`lg:text-xl cursor-pointer ${
-                theme
-                  ? "text-blue-300 hover:text-blue-800 "
-                  : "text-yellow-300 hover:text-yellow-600"
-              }`}
+              className={`lg:text-xl cursor-pointer text-yellow-300 hover:text-yellow-600
+              `}
             >
               {watchList?.some((c: any) => {
                 return c.toLowerCase() === coin;
