@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
-import dummyData from "./dummyData";
+import dummyData from "../dummyData";
 
 const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   const handleDragStart = (e: any) => e.preventDefault();
