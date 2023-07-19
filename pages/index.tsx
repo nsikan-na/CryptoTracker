@@ -115,27 +115,17 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
       <nav className="secondaryColorBg">
         <div className="secondaryColorBg rounded-2xl py-4 mx-2  xl:w-7/12 xl:mx-auto 2xl:w-6/12">
           <div className="md:flex justify-between items-center">
-            <div className="hidden md:flex justify-evenly items-center space-x-3">
-              <div
+            <div className="flex justify-center md:justify-start items-center space-x-3">
+              <h1
                 onClick={() => {
                   router.push("/");
                 }}
                 className={`text-3xl font-bold cursor-pointer text-yellow-500`}
               >
                 CryptoTracker
-              </div>
-              <div className="invisible md:w-1/12 w-2/12"></div>
+              </h1>
             </div>
             <div className="flex justify-evenly items-center space-x-5">
-              <div
-                onClick={() => {
-                  router.push("/");
-                }}
-                className={`text-3xl font-bold md:hidden cursor-pointer text-yellow-500`}
-              >
-                CT
-              </div>
-
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 font-semibold">
                   <Link href="/api/auth/login">
