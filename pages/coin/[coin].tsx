@@ -7,27 +7,6 @@ import { useRouter } from "next/router";
 
 import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
-
-async function getCoinInfo(coin: any) {
-  const response = await fetch(
-    `https://cryptocoins-tracker.vercel.app/api/coins`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        coin: "bitcoin",
-        currency: "USD",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
-
 const Coin: React.FC<{}> = ({}) => {
   const { user } = useUser();
   const { setAlertText }: any = useContext(Context);
@@ -47,28 +26,36 @@ const Coin: React.FC<{}> = ({}) => {
   const [spinner, setSpinner] = useState(true);
   const [link, setLink] = useState("");
   const [watchList, setWatchList] = useState<string[]>([]);
-  const { data } = useQuery({
-    queryKey: [coin, user],
-    queryFn: getCoinInfo,
-  });
 
-  useEffect(() => {
-    setName(data?.name);
-    setSymbol(data?.symbol?.toUpperCase());
-    setImage(data?.image?.large);
-    setRank(data?.market_cap_rank);
-    setCurrentPrice(`$${Intl.NumberFormat().format(data?.current_price?.usd)}`);
-    setDay(data?.day?.usd.toFixed(2));
-    setWeek(`${data?.week?.usd.toFixed(2)}`);
-    setMonths(data?.month?.usd.toFixed(2));
-    setTotalVolume(data?.total_volume?.usd);
-    setMarketCap(data?.market_cap?.usd);
-    setChart(data?.chart);
-    setLink(data?.link);
+  async function getCoinInfo(coin: any) {
+    const response = await fetch(`/api/coins`, {
+      method: "POST",
+      body: JSON.stringify({
+        coin,
+        currency: "USD",
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+
+    setName(data.name);
+    setSymbol(data.symbol?.toUpperCase());
+    setImage(data.image?.large);
+    setRank(data.market_cap_rank);
+    setCurrentPrice(`$${Intl.NumberFormat().format(data.current_price?.usd)}`);
+    setDay(data.day?.usd.toFixed(2));
+    setWeek(`${data.week?.usd.toFixed(2)}`);
+    setMonths(data.month?.usd.toFixed(2));
+    setTotalVolume(data.total_volume?.usd);
+    setMarketCap(data.market_cap?.usd);
+    setChart(data.chart);
+    setLink(data.link);
     setTimeout(() => {
       setSpinner(false);
     }, 350);
-  }, [data]);
+  }
 
   useEffect(() => {
     getCoinInfo(coin);
@@ -76,7 +63,7 @@ const Coin: React.FC<{}> = ({}) => {
     getWL(user).then((x) => {
       setWatchList(x);
     });
-  }, []);
+  }, [coin, user]);
 
   return (
     <>
