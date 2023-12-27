@@ -358,6 +358,6 @@ export const getStaticProps: any = async () => {
 
   return {
     props: { coinDataUs },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
