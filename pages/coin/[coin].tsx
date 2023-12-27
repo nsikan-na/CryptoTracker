@@ -170,7 +170,7 @@ const Coin: React.FC<{}> = ({}) => {
                     { time: "1 month:", data: month },
                   ].map((x: { time: string; data: string }, i) => (
                     <li key={i} className={`my-1`}>
-                      {`${x.time}: `}
+                      {`${x.time} `}
                       <span
                         className={`${
                           Number(x.data) > 0 ? "text-green-600" : "text-red-600"
