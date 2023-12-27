@@ -42,11 +42,13 @@ const Coin: React.FC<{}> = ({}) => {
     });
     const data = await response.json();
     if (!data?.name) {
-      setCanClick(false);
+      if (!canClick) {
+        setCanClick(false);
+        setTimeout(() => {
+          setCanClick(true);
+        }, CAN_CLICK_TIMEOUT);
+      }
       router.push(`/`);
-      setTimeout(() => {
-        setCanClick(true);
-      }, CAN_CLICK_TIMEOUT);
     }
 
     setName(data.name);
