@@ -188,7 +188,7 @@ const Coin: React.FC<{}> = ({}) => {
               </div>
             </div>
             <div className=" secondaryColorBg rounded-2xl md:w-6/12 md:h-full flex flex-col 2xl:w-4/12">
-              <div className="text-center py-3 text-2xl font-semibold">{`Last 7 days`}</div>
+              <div className="text-center py-3 text-2xl font-semibold">{`Last 1 week`}</div>
               <div className="flex justify-center items-center">
                 <img
                   src={chart}
