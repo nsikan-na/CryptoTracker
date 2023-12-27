@@ -26,6 +26,7 @@ const Coin: React.FC<{}> = ({}) => {
   const [spinner, setSpinner] = useState(true);
   const [link, setLink] = useState("");
   const [watchList, setWatchList] = useState<string[]>([]);
+  const [desc, setDesc] = useState("");
 
   async function getCoinInfo(coin: any) {
     const response = await fetch(`/api/coins`, {
@@ -40,6 +41,7 @@ const Coin: React.FC<{}> = ({}) => {
     });
     const data = await response.json();
     setName(data.name);
+    setDesc(data.desc);
     setSymbol(data.symbol?.toUpperCase());
     setImage(data.image?.large);
     setRank(data.market_cap_rank);
@@ -187,6 +189,14 @@ const Coin: React.FC<{}> = ({}) => {
             </div>
           </div>
 
+          {desc ? (
+            <div
+              className=" secondaryColorBg rounded-2xl my-3 p-4 indent-7 lg:text-xl coinDesc mx-auto 2xl:w-9/12 font-semibold"
+              dangerouslySetInnerHTML={{ __html: desc }}
+            />
+          ) : (
+            ""
+          )}
           {/* {user ? (
             <div
               className={`lg:text-xl cursor-pointer text-yellow-300 hover:text-yellow-600
