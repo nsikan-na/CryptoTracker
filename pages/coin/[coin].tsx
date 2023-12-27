@@ -162,15 +162,15 @@ const Coin: React.FC<{}> = ({}) => {
                       : `$${(Number(totalVolume) / 1000000).toFixed(1)}M`}
                   </li> */}
                   <div className="font-semibold my-1 text-center">
-                    Price Change Last x Days
+                    Price Change Last x
                   </div>
                   {[
-                    { time: "1", data: day },
-                    { time: "7", data: week },
-                    { time: "30", data: month },
+                    { time: "1 day:", data: day },
+                    { time: "1 week:", data: week },
+                    { time: "1 month:", data: month },
                   ].map((x: { time: string; data: string }, i) => (
                     <li key={i} className={`my-1`}>
-                      {`${x.time} days: `}
+                      {`${x.time}: `}
                       <span
                         className={`${
                           Number(x.data) > 0 ? "text-green-600" : "text-red-600"
