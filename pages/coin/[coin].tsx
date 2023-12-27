@@ -80,7 +80,7 @@ const Coin: React.FC<{}> = ({}) => {
                 CryptoTracker
               </h1>
             </div>
-            <div className="flex justify-evenly space-x-5 items-center">
+            {/* <div className="flex justify-evenly space-x-5 items-center">
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 ">
                   <Link href="/api/auth/login">
@@ -98,7 +98,7 @@ const Coin: React.FC<{}> = ({}) => {
                   </Link>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
@@ -192,7 +192,7 @@ const Coin: React.FC<{}> = ({}) => {
             </div>
           </div>
 
-          {user ? (
+          {/* {user ? (
             <div
               className={`lg:text-xl cursor-pointer text-yellow-300 hover:text-yellow-600
               `}
@@ -232,7 +232,7 @@ const Coin: React.FC<{}> = ({}) => {
             </div>
           ) : (
             ""
-          )}
+          )} */}
         </div>
       </div>
     </>

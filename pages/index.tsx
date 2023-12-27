@@ -125,7 +125,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                 CryptoTracker
               </h1>
             </div>
-            <div className="flex justify-evenly items-center space-x-5">
+            {/* <div className="flex justify-evenly items-center space-x-5">
               {!user ? (
                 <div className="flex space-x-3 justify-end mr-2 font-semibold">
                   <Link href="/api/auth/login">
@@ -143,7 +143,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                   </Link>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </nav>
@@ -170,7 +170,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
             <h1 className="text-center font-bold text-2xl my-4">
               Top Coins by Market Capitalization
             </h1>
-            <div className="flex justify-center space-x-5 items-center my-2 font-semibold">
+            {/* <div className="flex justify-center space-x-5 items-center my-2 font-semibold">
               {user ? (
                 <>
                   <div>Toggle Watch List</div>
@@ -195,8 +195,8 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                   {`to use the watch list feature!`}
                 </div>
               )}
-            </div>
-            <div className="text-center my-2">{`(Click coin name for more information on the coin!)`}</div>
+            </div> */}
+            {/* <div className="text-center my-2">{`(Click coin name for more information on the coin!)`}</div> */}
             {data.length !== 0 ? (
               <div className="">
                 <table className="w-10/12 mx-auto md:hidden font-semibold">
