@@ -6,10 +6,11 @@ import { Context } from "../_app";
 import { useRouter } from "next/router";
 
 import Link from "next/link";
+import { CAN_CLICK_TIMEOUT } from "..";
 
 const Coin: React.FC<{}> = ({}) => {
   const { user } = useUser();
-  const { setAlertText }: any = useContext(Context);
+  const { setAlertText, canClick, setCanClick }: any = useContext(Context);
   const router = useRouter();
   const { coin }: any = router.query;
   const [symbol, setSymbol] = useState("");
@@ -40,6 +41,18 @@ const Coin: React.FC<{}> = ({}) => {
       },
     });
     const data = await response.json();
+    if (!data?.name) {
+      if (!canClick)
+        return setAlertText(
+          "Please wait a few seconds! (The api used has a limit)"
+        );
+      setCanClick(false);
+      router.push(`/`);
+      setTimeout(() => {
+        setCanClick(true);
+      }, CAN_CLICK_TIMEOUT);
+    }
+
     setName(data.name);
     setDesc(data.desc);
     setSymbol(data.symbol?.toUpperCase());

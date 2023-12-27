@@ -10,8 +10,8 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import dummyData from "../dummyData";
 
-const CAN_CLICK_TIMEOUT = 30000;
-const CAN_CLICK_TIMEOUT_INIT = 15000;
+export const CAN_CLICK_TIMEOUT = 30000;
+export const CAN_CLICK_TIMEOUT_INIT = 15000;
 
 const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   const handleDragStart = (e: any) => e.preventDefault();
@@ -29,15 +29,15 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   }, CAN_CLICK_TIMEOUT_INIT);
   const handleClick = (id: string) => {
     return () => {
-      if (!canClick)
-        return setAlertText(
-          "Please wait a few seconds! (The api used has a limit)"
-        );
-      setCanClick(false);
+      // if (!canClick)
+      //   return setAlertText(
+      //     "Please wait a few seconds! (The api used has a limit)"
+      //   );
+      // setCanClick(false);
       router.push(`/coin/${id}`);
-      setTimeout(() => {
-        setCanClick(true);
-      }, CAN_CLICK_TIMEOUT);
+      // setTimeout(() => {
+      //   setCanClick(true);
+      // }, CAN_CLICK_TIMEOUT);
     };
   };
 
