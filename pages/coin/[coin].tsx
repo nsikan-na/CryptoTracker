@@ -42,12 +42,10 @@ const Coin: React.FC<{}> = ({}) => {
     });
     const data = await response.json();
     if (!data?.name) {
-      if (!canClick) {
-        setCanClick(false);
-        setTimeout(() => {
-          setCanClick(true);
-        }, CAN_CLICK_TIMEOUT);
-      }
+      setCanClick(false);
+      setTimeout(() => {
+        setCanClick(true);
+      }, CAN_CLICK_TIMEOUT);
       router.push(`/`);
     }
 
@@ -70,7 +68,7 @@ const Coin: React.FC<{}> = ({}) => {
   }
 
   useEffect(() => {
-    if (!coin) return;  
+    if (!coin) return;
     getCoinInfo(coin);
   }, [coin]);
 
