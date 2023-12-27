@@ -10,17 +10,31 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import dummyData from "../dummyData";
 
+const CAN_CLICK_TIMEOUT = 15000;
+
 const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   const handleDragStart = (e: any) => e.preventDefault();
 
   const router = useRouter();
   const { user } = useUser();
-  const { setAlertText }: any = useContext(Context);
+  const { setAlertText, canClick, setCanClick }: any = useContext(Context);
   const [data, setData] = useState<any>([]);
   const [search, setSearch] = useState(false);
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
+
+  const handleClick = (id: string) => {
+    return () => {
+      if (!canClick) return;
+      setCanClick(false);
+      router.push(`/coin/${id}`);
+      setTimeout(() => {
+        setCanClick(true);
+      }, CAN_CLICK_TIMEOUT);
+    };
+  };
+
   const coinData = !coinDataUs.status ? coinDataUs : dummyData;
   const items = coinData.map((item: any) => [
     <div
@@ -32,15 +46,11 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
         src={item?.image}
         onDragStart={handleDragStart}
         role="presentation"
-        onClick={() => {
-          router.push(`/coin/${item.id}`);
-        }}
+        onClick={handleClick(item.id)}
       />
       <div
         className="my-1 cursor-pointer space-x-2 "
-        onClick={() => {
-          router.push(`/coin/${item.id}`);
-        }}
+        onClick={handleClick(item.id)}
       >
         <span className="font-semibold">{item.symbol.toUpperCase()}</span>
         <span
@@ -55,12 +65,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
             : `${item.price_change_percentage_24h.toFixed(2)}%`}
         </span>
       </div>
-      <div
-        className="my-1 cursor-pointer"
-        onClick={() => {
-          router.push(`/coin/${item.id}`);
-        }}
-      >
+      <div className="my-1 cursor-pointer" onClick={handleClick(item.id)}>
         ${Intl.NumberFormat().format(item.current_price.toFixed(2))}
       </div>
     </div>,
@@ -213,9 +218,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                           <span
                             title={`Click to see more of ${coin.name}!`}
                             className="link"
-                            onClick={() => {
-                              router.push(`/coin/${coin.id}`);
-                            }}
+                            onClick={handleClick(coin.id)}
                           >{`${coin.name}`}</span>
                           <span className="hidden md:inline">{`(${coin.symbol.toUpperCase()})`}</span>
                         </td>
@@ -288,9 +291,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                             <span
                               title={`Click to see more of ${coin.name}!`}
                               className="cursor-pointer  link"
-                              onClick={() => {
-                                router.push(`/coin/${coin.id}`);
-                              }}
+                              onClick={handleClick(coin.id)}
                             >
                               {`${coin.name}`}
                               {`(${coin.symbol.toUpperCase()})`}
