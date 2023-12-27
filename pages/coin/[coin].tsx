@@ -39,7 +39,7 @@ const Coin: React.FC<{}> = ({}) => {
       },
     });
     const data = await response.json();
-
+    console.log(data);
     setName(data.name);
     setSymbol(data.symbol?.toUpperCase());
     setImage(data.image?.large);
@@ -148,12 +148,12 @@ const Coin: React.FC<{}> = ({}) => {
                       ? `$${(Number(marketCap) / 1000000000).toFixed(1)}B`
                       : `$${(Number(marketCap) / 1000000).toFixed(1)}M`}
                   </li>
-                  <li className="my-1">
+                  {/* <li className="my-1">
                     <span className="font-semibold">{`Total Volume  : `}</span>
                     {totalVolume?.toString().length > 9
                       ? `$${(Number(totalVolume) / 1000000000).toFixed(1)}B`
                       : `$${(Number(totalVolume) / 1000000).toFixed(1)}M`}
-                  </li>
+                  </li> */}
                   <div className="font-semibold my-1 text-center">
                     Price Change Last x Days
                   </div>
