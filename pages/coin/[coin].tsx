@@ -70,6 +70,7 @@ const Coin: React.FC<{}> = ({}) => {
   }
 
   useEffect(() => {
+    if (!coin) return;  
     getCoinInfo(coin);
   }, [coin]);
 
