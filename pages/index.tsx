@@ -10,7 +10,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import dummyData from "../dummyData";
 
-const CAN_CLICK_TIMEOUT = 15000;
+const CAN_CLICK_TIMEOUT = 30000;
 
 const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   const handleDragStart = (e: any) => e.preventDefault();
@@ -26,7 +26,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
 
   const handleClick = (id: string) => {
     return () => {
-      if (!canClick) return;
+      if (!canClick) return setAlertText("Please wait a few seconds!");
       setCanClick(false);
       router.push(`/coin/${id}`);
       setTimeout(() => {
