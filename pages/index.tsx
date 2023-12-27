@@ -10,7 +10,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import dummyData from "../dummyData";
 
-export const CAN_CLICK_TIMEOUT = 30000;
+export const CAN_CLICK_TIMEOUT = 5000;
 export const CAN_CLICK_TIMEOUT_INIT = 15000;
 
 const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
