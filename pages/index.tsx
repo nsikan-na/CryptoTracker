@@ -10,7 +10,7 @@ import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import dummyData from "../dummyData";
 
-export const CAN_CLICK_TIMEOUT = 5000;
+export const CAN_CLICK_TIMEOUT = 20000;
 export const CAN_CLICK_TIMEOUT_INIT = 15000;
 
 const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
@@ -34,9 +34,9 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
           "Please wait a few seconds! (The api used has a limit)"
         );
       router.push(`/coin/${id}`);
-      // setTimeout(() => {
-      //   setCanClick(true);
-      // }, CAN_CLICK_TIMEOUT);
+      setTimeout(() => {
+        setCanClick(true);
+      }, CAN_CLICK_TIMEOUT);
     };
   };
 
