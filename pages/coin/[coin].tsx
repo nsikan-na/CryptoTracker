@@ -42,10 +42,10 @@ const Coin: React.FC<{}> = ({}) => {
     });
     const data = await response.json();
     if (!data?.name) {
-      if (!canClick)
-        return setAlertText(
-          "Please wait a few seconds! (The api used has a limit)"
-        );
+      // if (!canClick)
+      //   return setAlertText(
+      //     "Please wait a few seconds! (The api used has a limit)"
+      //   );
       setCanClick(false);
       router.push(`/`);
       setTimeout(() => {
