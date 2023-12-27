@@ -24,9 +24,9 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
   const [spinner, setSpinner] = useState(true);
   const [watchList, setWatchList] = useState<string[]>([]);
   const [viewWatchList, setViewWatchList] = useState(false);
-  setTimeout(() => {
-    setCanClick(true);
-  }, CAN_CLICK_TIMEOUT_INIT);
+  // setTimeout(() => {
+  //   setCanClick(true);
+  // }, CAN_CLICK_TIMEOUT_INIT);
   const handleClick = (id: string) => {
     return () => {
       if (!canClick)
