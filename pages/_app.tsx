@@ -9,7 +9,7 @@ import toggleTheme from "../util/toggleTheme";
 export const Context = createContext({});
 function MyApp({ Component, pageProps }: AppProps) {
   const [alertText, setAlertText] = useState("");
-  const [canClick, setCanClick] = useState(true);
+  const [canClick, setCanClick] = useState(false);
   useEffect(() => {
     toggleTheme();
   }, []);
