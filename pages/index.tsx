@@ -33,6 +33,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
         return setAlertText(
           "Please wait a few seconds! (The api used has a limit)"
         );
+      setCanClick(false);
       router.push(`/coin/${id}`);
       setTimeout(() => {
         setCanClick(true);
