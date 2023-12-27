@@ -6,7 +6,6 @@ import Link from "next/link";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import CircularProgress from "@mui/material/CircularProgress";
-import { getWL, addToWL, removeFromWL } from "../util/watchListActions";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import dummyData from "../dummyData";
@@ -71,13 +70,6 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
     512: { items: 3 },
     1024: { items: 4 },
   };
-  useEffect(() => {
-    if (!user) return;
-
-    getWL(user).then((x) => {
-      setWatchList(x);
-    });
-  }, [user]);
 
   useEffect(() => {
     if (search) return;
@@ -254,7 +246,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                         <tr key={coin.id}>
                           <td className="">{coin.market_cap_rank}</td>
                           <td className="">
-                            {user ? (
+                            {/* {user ? (
                               !watchList?.some((c) => {
                                 return c === coin.id;
                               }) ? (
@@ -284,7 +276,7 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
                               )
                             ) : (
                               ""
-                            )}
+                            )} */}
                           </td>
                           <td className=" pl-10">
                             <img

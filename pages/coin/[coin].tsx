@@ -5,8 +5,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Context } from "../_app";
 import { useRouter } from "next/router";
 
-import { getWL, addToWL, removeFromWL } from "../../util/watchListActions";
 import Link from "next/link";
+
 const Coin: React.FC<{}> = ({}) => {
   const { user } = useUser();
   const { setAlertText }: any = useContext(Context);
@@ -39,7 +39,6 @@ const Coin: React.FC<{}> = ({}) => {
       },
     });
     const data = await response.json();
-    console.log(data);
     setName(data.name);
     setSymbol(data.symbol?.toUpperCase());
     setImage(data.image?.large);
@@ -59,11 +58,7 @@ const Coin: React.FC<{}> = ({}) => {
 
   useEffect(() => {
     getCoinInfo(coin);
-
-    getWL(user).then((x) => {
-      setWatchList(x);
-    });
-  }, [coin, user]);
+  }, [coin]);
 
   return (
     <>
