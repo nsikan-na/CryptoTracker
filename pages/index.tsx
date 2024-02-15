@@ -351,6 +351,8 @@ const Index: React.FC<{ coinDataUs: any }> = ({ coinDataUs }) => {
 };
 export default Index;
 export const getStaticProps: any = async () => {
+  // setInterval(sendAPIRequest, 300000);
+  sendAPIRequest();
   const fetchCoinList: any = await fetch(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&sparkline=false&per_page=10`
   );
@@ -358,6 +360,33 @@ export const getStaticProps: any = async () => {
 
   return {
     props: { coinDataUs },
-    revalidate: 60,
+    revalidate: 300,
   };
 };
+
+function sendAPIRequest() {
+  const urls = ["https://charlie-glass-admin-api.vercel.app/"];
+
+  const options = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  urls.forEach((url) =>
+    fetch(url, options)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("There was a problem with your fetch operation:", error);
+      })
+  );
+  console.log("Ran Apis (cold start)");
+}
